@@ -16,7 +16,7 @@ Problem - choosing traffic light style progression criteria. Simplest case - one
 
 Current practice - arbirtarily chosen
 
-For a single threshold, could instead determine through hypothesis testing formulation - but see feasibility test paper
+For a single threshold, could instead determine through hypothesis testing formulation. But this can run into problems when we have several progression criteria, as shown in WP1.1.
 
 For two thesholds, could apply the three outcome design
 i) when the amber area is meant to provide some flexibility to consider the bigger picture, as was intended in Sargent paper
@@ -28,9 +28,257 @@ ii) show that the hypothesis testing framework is fundamentally ill-suited when 
 
 Martyn Lewis' presentation at ICTMC discussed using standard two outcome tests, using red and green as null and alternative hypotheses. So perhaps conflating the thresholds used with the hypotheses?
 
+## Example
+
+We will consider a very simple example throughout, where the pilot is estimating adherence / fidelity to the intervention. This is measured at the participant level, and is a binary endpoint. We denote the parameter by $p$.
+
+For arguments sake, we suppose that a $p$ of 0.7 or more would mean the definitive trial should proceed, whereas a $p$ of 0.4 or less would mean it should not.  We will refer to the corresponding regions of the parameter space as red, amber and green hypotheses.
+
+We assume a sample size of $n=30$ in the intervention arm.
+
+## Methods
+
+### Two outcome test
+
+First, consider a standard single arm hypothesis test. 
+
+```{r}
+p0 <- 0.5; p1 <- 0.7
+
+# Critical values
+c <- 0:30
+# Type I error rates
+tI <- 1 - pbinom(c, 30, p0)
+# Type II error rates
+tII <- pbinom(c, 30, p1)
+
+plot(tI[13:21], tII[13:21])
+c[13:21]
+```
+
+So, for example, we get a type I error rate of 0.100 and a type II of 0.159 if our rule is to stop when we have 18 or fewer adherences, and proceed if we have 19 or more. Note that this corresponds to proportions of 0.6 and 0.63. 
+
+### Three outcome test (i)
+
+Here we consider the argument that a fixed stop/go threshold for a PC is too inflexible, and that we will want some freedom to consider the bigger picture if the outcome is borderline. This is the motivation for Sargents three outcome design. Here, we have a stop and a go result, and an intermediate `inconclusive' result.
+
+First, apply the design off-the-shelf, which means defining two more operating characteristics and constraining these in addition to the usual $\alpha$ and $\beta$. These other OCs are the probabilities of getting an inconclusive result under $R$ or $G$, which we denote $\eta$ and $\lambda$. We are free to constrain these at different levels if we feel one error is more important than the other.
+
+```{r}
+get_ocs <- function(rule, n, p0, p1)
+{
+  alpha <- 1 - pbinom(rule[,2], n, p0)
+  beta <- pbinom(rule[,1], n, p1)
+  eta <- 1 - pbinom(rule[,1], n, p0) - alpha
+  lambda <- pbinom(rule[,2], n, p1) - beta
+    
+  return(cbind(alpha, beta, eta, lambda))
+}
+
+rules <- expand.grid(r1 = 0:100, r2 = 0:100)
+rules <- rules[rules$r2 >= rules$r1,]
+
+f <- function(n, cons, p0, p1, rules)
+{
+  # Get possible rules
+  rules <- rules[rules$r1 <= n & rules$r2 <= n,]
+  ocs <- get_ocs(rules, n, p0, p1)
+  valid <- apply(ocs, 1, function(x) sum(x <= rep(0.1,4)) == 4)
+  if(any(valid)){
+    c(1, ocs[valid,][1,])
+  } else {
+    c(0, rep(1,4))
+  }
+}
+
+f(35, cons, p0, p1, rules)
+```
+
+So, if we set constraints to the usual $\alpha < 0.05, \beta < 0.1$ and ask for $\eta = \lambda = 0$, then we just have the usual two-outcome design:
+```{r}
+library(pso)
+
+# Choose some constraints
+cons <- c(0.05, 0.1, 0, 0)
+
+opt <- psoptim(par=c(0.1, 0, 10), fn=obj_f, cons=cons, d=0.3, lower=c(-1,0,1), upper = c(2,2,1000))
+opt$par
+get_ocs(opt$par[1:2], opt$par[3], d=0.3)
+
+# Compare with:
+power.t.test(delta=0.3, sd=1, power=0.9, type="o", alternative="o")
+```
+If we want to keep the same $\alpha$ and $\beta$ levels but reduce the sample szie, we can relax the other two constraints:
+```{r}
+# Choose some constraints
+cons <- c(0.05, 0.1, 0.1, 0.1)
+
+opt <- psoptim(par=c(0.1, 0, 10), fn=obj_f, cons=cons, d=0.3, lower=c(-1,0,1), upper = c(2,2,1000))
+opt$par
+get_ocs(opt$par[1:2], opt$par[3], d=0.3)
+```
+Here, we reduce the sample size by about 26, at the cost of now having a 0.064 prob of getting an inconclusive result under the null, and a 0.1 prob of an inconclusive result under the alternative. Is this worth it? We need to understand the impact of these errors to make this judgement. We might reasonably doubt our ability to effectively balance the costs of these errors against the usual $\alpha$ and $\beta$ and the sample size, given that this is rarely done in the usual two outcome case (where we stick to default nominal values and find the smallest $n$ that satisfies). Belwo we consider an alternative formulation which replaces the error rates $\eta$ and $\lambda$, which are to be _chosen_, with two probabilities, which can be _estimated_.
+
+### Modelling inconclusive decisions
+
+Suppose we use a simple model for what happens following an inconclusive result. Under $H_R$, we denote the probability that we will go on to make a "red" decision $p_r$. Under $H_G$, we denote the probability that we will make a "green" decision $p_g$. For simplicity, we will assume that $p_r = p_g = p$, i.e. there is a single probability for making the correct decision under either of these hypotheses. We now see that our calculations for $\alpha$ and $\beta$ as done above are not correct - we can make a type I error under $H_R$ both by getting a "green" decision straight away, but also by first being inconclusive and then deciding to go ahead. Now,
+$$
+\begin{aligned}
+\alpha & = Pr[g ~|~ H_R] + (1-p)Pr[a ~|~ H_R], \\
+\beta & = Pr[r ~|~ H_G] + (1-p)Pr[a ~|~ H_G].
+\end{aligned}
+$$
+
+```{r}
+get_ocs2 <- function(rule, n, d, p, p_g=p)
+{
+  sd <- 1; msd <- sd/sqrt(n)
+  
+  alpha <- 1-pnorm(sum(rule), 0, msd)
+  beta <- pnorm(rule[1], d, msd)
+
+  # Actual type I prob:
+  a <- alpha + (1-p)*(pnorm(sum(rule), 0, msd) - pnorm(rule[1], 0, msd))
+  
+  # Actual type II prob:
+  b <- beta + (1-p_g)*(pnorm(sum(rule),d, msd) - pnorm(rule[1], d, msd))
+    
+  return(c(a, b))
+}
+  
+obj_f2 <- function(x, cons, d, p, p_g=p)
+{
+  ocs <- get_ocs2(x[1:2], x[3], d, p, p_g)
+  penalty <- 1000*sum(sapply(ocs - cons, max, 0))
+  return(x[3] + penalty)
+}
+```
+
+First, assume that $p=0.5$ - we have no ability to make the correct decision after an inconclusive result, and will just flip a coin. What is the optimal design?
+
+```{r}
+# Choose some constraints
+cons <- c(0.05, 0.1)
+# Assume an ability to make the correct decision
+p <- 0.5
+
+opt <- psoptim(par=c(0.1, 0, 10), fn=obj_f2, cons=cons, d=0.3, p=p, lower=c(-1,0,1), upper = c(2,2,1000))
+opt$par
+get_ocs2(opt$par[1:2], opt$par[3], d=0.3, p=p)
+get_ocs(opt$par[1:2], opt$par[3], d=0.3)
+```
+It is almost identical to the usual two outcome design - the inconclusive region ais practically 0. As $p$ increases, the optimal design will have an increasingly large inconclusive region and the sample size will reduce:
+
+```{r, eval=T}
+library(ggplot2)
+
+# Assume an ability to make the correct decision
+p <- 0.8
+
+opt <- psoptim(par=c(0.1, 0, 10), fn=obj_f2, cons=cons, d=0.3, p=p, lower=c(-1,0,1), upper = c(2,2,1000))
+opt$par
+get_ocs2(opt$par[1:2], opt$par[3], d=0.3, p=p)
+get_ocs(opt$par[1:2], opt$par[3], d=0.3)
+```
+
+Finding the optimal design for a range of possible $p$ values:
+```{r}
+eval_p <- function(p, p_g=p, cons, d)
+{
+  opt <- psoptim(par=c(0.1,0.1,100), fn=obj_f2, cons=cons, d=d, p=p, p_g=p_g, lower=c(-1,0,1), upper = c(2,3,1000))
+  return(opt$par)
+}
+
+ps <- seq(0.5,0.95,0.05)
+df <- as.data.frame(cbind(ps, t(sapply(ps, eval_p, cons=cons, d=0.3))))
+names(df)[2:4] <- c("c_0", "c_1", "n")
+
+ggplot(df, aes(ps, n)) + geom_point() +
+  geom_hline(yintercept = max(df$n)*0.8, linetype=2) 
+
+# Allowing p_r and p_g to differ
+#ps <- expand.grid(p=seq(0.5,0.95,0.05), p_g=seq(0.5,0.95,0.05))
+#df <- as.data.frame(cbind(ps, t(apply(ps, 1, function(x, cons, d) eval_p(x[1], x[2], cons, d), cons=cons, d=0.3))))
+#names(df)[3:5] <- c("c_0", "c_1", "n")
+
+#ggplot(df, aes(p, p_g, colour=n, z=n)) + geom_point() + geom_contour() + coord_fixed()
+```
+So, we see that in order to maintain the actual type I and II error rates whilst reducing the sample size, we actually need the probability of making the correct decision to be quite high. In this example, we need $p \approx 0.8$ to get a reduction of 20\%.
+
+The three outcome designs described in the literature seem to be motivated by either a desire to reduce sample size while maintaining low error rates, or to incorporate other information into the decision making process if the efficacy outcome is not convincing either way. Our re-formulation highlights the problems with these perspectives. We have shown that to significantly reduce sample size we may need to have a high probability of making the correct decision after seeing an inconclusive result (e.g. requiring $p \approx 0.8$ to get a 20\% reduction in the above example). If the decision is to consider other endpoints, then if these are uncorrelated with efficacy we should get $p=0.5$ and so no reduction in sample size. In fact for $p=0.5$, if we want to include an inconclusive region then we will have to _increase_ sample size, contraty to the argument presented in [@Sargent2001]. On the other hand, our analysis shows that if we know that $p > 0.5$ then it will always be optimal to have an inconclusive region (although the impact may be minimal and so in practice not worth doing).
+
+Note that under the "extra endpoint" approach we may have something which is negatively correlated with efficacy, like toxicity. So in this case if we make the decision based on it being low toxicity, we are making it more likely that it will be inefficacious. However, this won't impact on the optimal design since it will be optimal to have no inconclusive region just as when $p=0.5$. 
 
 
-########################
+### Comparison
+
+Suppose we have a fixed pilot size of 60 participants. Find the set of admissable designs for each approach and then evaluate their true type I and II error rate.
+
+```{r}
+g1 <- function(rule, n, d_0, d_1, cons)
+{
+  ocs <- get_ocs(rule, n, d_1-d_0)
+  penalty <- 1000*sum(sapply(ocs[3:4] - cons, max, 0))
+  return(ocs[1:2] + penalty)
+}
+
+opt <- nsga2(g1, 2, 2, lower.bounds = c(-1,0), upper.bounds = c(2,2), n=60, d_0=0, d_1=0.3, cons=rep(0,2))
+plot(opt$value)
+des0 <- opt$par
+
+opt <- nsga2(g1, 2, 2, lower.bounds = c(-1,0), upper.bounds = c(2,2), n=60, d_0=0, d_1=0.3, cons=rep(0.1,2))
+plot(opt$value)
+des1 <- opt$par
+```
+
+
+```{r}
+g2 <- function(rule, n, d_0, d_1, p)
+{
+  ocs <- get_ocs2(rule, n, d_1-d_0, p)
+  return(ocs)
+}
+
+p <- 0.8
+opt <- nsga2(g2, 2, 2, lower.bounds = c(-1,0), upper.bounds = c(2,2), n=60, d_0=0, d_1=0.3, p=p)
+plot(opt$value)
+des2 <- opt$par
+
+df <- NULL
+
+# Evaluate the other designs
+tmp <- des0
+tmp <- cbind(tmp, t(apply(tmp, 1, get_ocs2, n=60,  p=p, d=0.3)))
+df <- rbind(df, tmp[,3:4])
+tmp <- des1
+tmp <- cbind(tmp, t(apply(tmp, 1, get_ocs2, n=60,  p=p, d=0.3)))
+df <- rbind(df, tmp[,3:4])
+tmp <- des2
+tmp <- cbind(tmp, t(apply(tmp, 1, get_ocs2, n=60,  p=p, d=0.3)))
+df <- rbind(df, tmp[,3:4])
+
+df <- as.data.frame(df)
+df$t <- c(rep("a",100), rep("b",100), rep("c",100))
+
+# a = usual two outcome
+# b = Sargent OCs allowing eta = gamma = 0.1
+# c = proper 3 outcome when p = 0.8
+ggplot(df, aes(V1, V2, colour=t)) + geom_point()
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+# Old
 
 Focus here on the "traffic light" system used when defining pilot progression criteria.
 
