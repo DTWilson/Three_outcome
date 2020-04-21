@@ -1,0 +1,704 @@
+---
+title: "Porgression criteria and the three outcome design"
+author: "D. T. Wilson"
+date: "16 August 2018"
+output: html_document
+bibliography: U:\\Literature\\Databases\\DTWrefs.bib
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Introduction
+
+Problem - choosing traffic light style progression criteria. Simplest case - one endpoint, e.g. recruitment rate.
+
+Current practice - arbirtarily chosen
+
+For a single threshold, could instead determine through hypothesis testing formulation - but see feasibility test paper
+
+For two thesholds, could apply the three outcome design
+i) when the amber area is meant to provide some flexibility to consider the bigger picture, as was intended in Sargent paper
+ii) when amber area is meant to trigger some kind of modification to improve the parameter, as is often the case in pilots
+
+Two contributions:
+i) reformulate the Sargent design with proper OCs and show how it compares with a two outcome design, and how the comparison hinges on our ability to make good decisions after an intermediate outcome
+ii) show that the hypothesis testing framework is fundamentally ill-suited when we anticipate making modifications but when we do not know, a priori, what effect these modifications will have
+
+Martyn Lewis' presentation at ICTMC discussed using standard two outcome tests, using red and green as null and alternative hypotheses. So perhaps conflating the thresholds used with the hypotheses?
+
+
+
+########################
+
+Focus here on the "traffic light" system used when defining pilot progression criteria.
+
+Narrow question - How do I choose my red/amber/green progression criteria in a pilot?
+
+Broader - should we use a traffic light or three outcome design at all?
+
+Outline:
+* Argue that using progression criteria is operationally equivalent to hypothesis testing, and so should be done with refernece to operating characteristics
+* Review methods for trial design with three outcomes, incluidng an intermediate "inconclusive" result
+* Intoduce model of decision making after an inconclusive result, but keeping alpha and beta defined over hypotheses H_R and H_G
+* Extend definition of alpha and beta to include H_A by modelling the outcome of an amber "adjustment"
+* Compare the properties of the three methods
+
+Increasingly, traffic light progression criteria are being pre-specified and used to guide decision making following a pilot trial [@Eldridge2016a]. From [@Eldridge2016a], pages 14 - 15:
+
+"The UK National Institute for Health Research requires that pilot or feasibility studies have clear criteria for deciding whether or not to progress to the next stage. In many pilot studies, however, such criteria may be best viewed as guidelines rather than strict thresholds that determine progression".
+
+They then give two reasonons why strict adherence may not make sense. Firstly, with reference to their example, they note that "Not reaching the pre-established criteria does not necessarily indicate unfeasibility of the trial but rather underlines changes to be made to the protocol". Then, "investigators should also be aware that estimates of rates in pilot trials may be subject to considerable uncertainty, so that it is best to be cautious about setting definitive thresholds that could be missed simply due to chance variation. In fact it is becoming increasingly common for investigators to use a traffic light system".
+
+So, what is it that has motivated the traffic light system? Is it because we know there will be opportunity to improve the protocol? Or because precision is low and we want to reduce the increased error rates that are a result? 
+
+From [@Avery2017] 
+
+One of their top ten tips for developing and using progression criteria for internal pilot studies: "A traffic light system of green (go), amber (amend) and red (stop) might be preferable to a simple stop/go approach when specifying progression criteria for internal pilot studies".
+
+and: "Trials may fall into the amend zone due to a factor that severely reduces recruitment but is temporary and remediable (such as a trial manager having sickness absence) and therefore does not require stopping the trial. It is unlikely that a trial would be stopped according to a predetermined rule without considering whether there are remediable factors."
+
+This is an interesting point, effetively arguing against any pre-specification of progression criteria. We can still pre-specify hypotheses, but only after the pilot will we know what model is appropriate. In the above example, for pre-specification we would need to include the possible absence of a trial manager into our model. In our approach, we can view this as saying that we can't have a good idea about the likely effect of a modifaction until after the trial - in the example, we will know a large improvement will be likely from just reducing the trial manager absence.
+
+Do we then have two seperate, albeit small, proposals? In the first case we have problems where we do not have an opportunity to modify after the trial, but we still want to have an intermedoiate "inconclusive" outcome. The motivation is either to use other information in borderline cases, or to reduce sample sizes but maintain error rates. In our pilot problem, we are interested in avoiding the imposition of strict criteria around intermediate regions since we could easily feel that the opposite decision is optimal. In particular, we want a formal way to allow qualitative information to feed into our decision. This could include an assessment of why we saw what we saw, and how easy it would be to change things for another trial.  
+
+Two overarching views.
+i) the modfication can be anticipated or modelled to some extent. This can be through defining an amber hypothesis and then applying and extending the usual three outcoe design; or it could be explicitly modelling the effect, e.g. if you know what the intervention will be but aren't sure of its effect.
+ii) we cannot anticipate what kind of modifications and their effects will be available before we run the pilot. This requires a different approach, as pre-specification of progression criteria won't work anymore. Instead, first assume the effect will be known exactly, show how error rates can still be controlled, and examine sensitivity to error in effect estimation.
+
+## Review
+
+[@Fleming1982]
+Multiple testing procedures for phase II trials, which we can think of as a three outcome design at each stage where the middle outcome is "go to next stage and test again". So, quite different to our problem because we want to change the intervention and then possibly start over again.
+
+[@Emerson1987]
+Decision-theoretic (non-Bayesian) approach, giving different costs to different types of error. Motivated by constrasting one and two sided tests, looking for a method which can tell us if there is a significant direction in either direction or if there is no difference.
+
+
+[@Storer1992]
+
+
+[@Sargent2001]
+
+
+[@Hong2007]
+
+
+[@Brown2012]
+Motivated by the fact that we can't have both a low sample size and low alpha and betas. Suggests a three outcome model where the decisions are stop / slow development / accelerated development, allowing two extra types of errors to be allowed and controlled. Seems to be equivalent to a two-stage design since the middle outcome is to "do another study".
+
+[@Kirby2016]
+A review and comparison of early phase trial approaches, including the three outcome design of [@Brown2012].
+
+## Methods
+
+Consider a single parameter of interest, which for simplicity we will assume to be the mean of a normal distribution $\mu$ (assuming that the variance $\sigma^2$ is known). The nature of the pilot trial problem requires three hypotheses:
+
+* $H_R: \mu < \mu_0$ - the main trial will definitely be futile;
+* $H_G: \mu > \mu_1$ - the mian trial will definitely be feasible;
+* $H_A: \mu_0 \leq \mu \leq \mu_1$ - the main trial _may_ be feasible, after some modifications have been made.
+
+The problem is how to choose our two progression criteria threshold, $c_0$ and $c_1$, and the sample size. We will consider three options.
+
+### Constraining more error rates
+
+Here we apply the three outcome design of [@Sargent2001], which means defining two more operating characteristics and constraining these in addition to the usual (although see below) $\alpha$ and $\beta$. These other OCs are the probabilities are of getting an inconclusive result under $H_R$ or $H_G$, which we denote $\eta$ and $\lambda$. We are free to constrain these at different levels if we feel one error is more important than the other.
+
+```{r}
+library(pso)
+
+get_ocs <- function(rule, n, d)
+{
+  sd <- 1; msd <- sd/sqrt(n)
+  
+  alpha <- 1-pnorm(sum(rule), 0, msd)
+  beta <- pnorm(rule[1], d, msd)
+  eta <- 1-pnorm(rule[1], 0, msd) - alpha
+  lambda <- pnorm(sum(rule), d, msd) - beta
+    
+  return(c(alpha, beta, eta, lambda))
+}
+
+obj_f <- function(x, cons, d)
+{
+  ocs <- get_ocs(x[1:2], x[3], d)
+  penalty <- 1000*sum(sapply(ocs - cons, max, 0))
+  return(x[3] + penalty)
+}
+```
+
+So, if we set constraints to the usual $\alpha < 0.05, \beta < 0.1$ and ask for $\eta = \lambda = 0$, then we just have the usual two-outcome design:
+```{r}
+library(pso)
+
+# Choose some constraints
+cons <- c(0.05, 0.1, 0, 0)
+
+opt <- psoptim(par=c(0.1, 0, 10), fn=obj_f, cons=cons, d=0.3, lower=c(-1,0,1), upper = c(2,2,1000))
+opt$par
+get_ocs(opt$par[1:2], opt$par[3], d=0.3)
+
+# Compare with:
+power.t.test(delta=0.3, sd=1, power=0.9, type="o", alternative="o")
+```
+If we want to keep the same $\alpha$ and $\beta$ levels but reduce the sample szie, we can relax the other two constraints:
+```{r}
+# Choose some constraints
+cons <- c(0.05, 0.1, 0.1, 0.1)
+
+opt <- psoptim(par=c(0.1, 0, 10), fn=obj_f, cons=cons, d=0.3, lower=c(-1,0,1), upper = c(2,2,1000))
+opt$par
+get_ocs(opt$par[1:2], opt$par[3], d=0.3)
+```
+Here, we reduce the sample size by about 26, at the cost of now having a 0.064 prob of getting an inconclusive result under the null, and a 0.1 prob of an inconclusive result under the alternative. Is this worth it? We need to understand the impact of these errors to make this judgement. We might reasonably doubt our ability to effectively balance the costs of these errors against the usual $\alpha$ and $\beta$ and the sample size, given that this is rarely done in the usual two outcome case (where we stick to default nominal values and find the smallest $n$ that satisfies). Belwo we consider an alternative formulation which replaces the error rates $\eta$ and $\lambda$, which are to be _chosen_, with two probabilities, which can be _estimated_.
+
+### Modelling inconclusive decisions
+
+Suppose we use a simple model for what happens following an inconclusive result. Under $H_R$, we denote the probability that we will go on to make a "red" decision $p_r$. Under $H_G$, we denote the probability that we will make a "green" decision $p_g$. For simplicity, we will assume that $p_r = p_g = p$, i.e. there is a single probability for making the correct decision under either of these hypotheses. We now see that our calculations for $\alpha$ and $\beta$ as done above are not correct - we can make a type I error under $H_R$ both by getting a "green" decision straight away, but also by first being inconclusive and then deciding to go ahead. Now,
+$$
+\begin{aligned}
+\alpha & = Pr[g ~|~ H_R] + (1-p)Pr[a ~|~ H_R], \\
+\beta & = Pr[r ~|~ H_G] + (1-p)Pr[a ~|~ H_G].
+\end{aligned}
+$$
+
+```{r}
+get_ocs2 <- function(rule, n, d, p, p_g=p)
+{
+  sd <- 1; msd <- sd/sqrt(n)
+  
+  alpha <- 1-pnorm(sum(rule), 0, msd)
+  beta <- pnorm(rule[1], d, msd)
+
+  # Actual type I prob:
+  a <- alpha + (1-p)*(pnorm(sum(rule), 0, msd) - pnorm(rule[1], 0, msd))
+  
+  # Actual type II prob:
+  b <- beta + (1-p_g)*(pnorm(sum(rule),d, msd) - pnorm(rule[1], d, msd))
+    
+  return(c(a, b))
+}
+  
+obj_f2 <- function(x, cons, d, p, p_g=p)
+{
+  ocs <- get_ocs2(x[1:2], x[3], d, p, p_g)
+  penalty <- 1000*sum(sapply(ocs - cons, max, 0))
+  return(x[3] + penalty)
+}
+```
+
+First, assume that $p=0.5$ - we have no ability to make the correct decision after an inconclusive result, and will just flip a coin. What is the optimal design?
+
+```{r}
+# Choose some constraints
+cons <- c(0.05, 0.1)
+# Assume an ability to make the correct decision
+p <- 0.5
+
+opt <- psoptim(par=c(0.1, 0, 10), fn=obj_f2, cons=cons, d=0.3, p=p, lower=c(-1,0,1), upper = c(2,2,1000))
+opt$par
+get_ocs2(opt$par[1:2], opt$par[3], d=0.3, p=p)
+get_ocs(opt$par[1:2], opt$par[3], d=0.3)
+```
+It is almost identical to the usual two outcome design - the inconclusive region ais practically 0. As $p$ increases, the optimal design will have an increasingly large inconclusive region and the sample size will reduce:
+
+```{r, eval=T}
+library(ggplot2)
+
+# Assume an ability to make the correct decision
+p <- 0.8
+
+opt <- psoptim(par=c(0.1, 0, 10), fn=obj_f2, cons=cons, d=0.3, p=p, lower=c(-1,0,1), upper = c(2,2,1000))
+opt$par
+get_ocs2(opt$par[1:2], opt$par[3], d=0.3, p=p)
+get_ocs(opt$par[1:2], opt$par[3], d=0.3)
+```
+
+Finding the optimal design for a range of possible $p$ values:
+```{r}
+eval_p <- function(p, p_g=p, cons, d)
+{
+  opt <- psoptim(par=c(0.1,0.1,100), fn=obj_f2, cons=cons, d=d, p=p, p_g=p_g, lower=c(-1,0,1), upper = c(2,3,1000))
+  return(opt$par)
+}
+
+ps <- seq(0.5,0.95,0.05)
+df <- as.data.frame(cbind(ps, t(sapply(ps, eval_p, cons=cons, d=0.3))))
+names(df)[2:4] <- c("c_0", "c_1", "n")
+
+ggplot(df, aes(ps, n)) + geom_point() +
+  geom_hline(yintercept = max(df$n)*0.8, linetype=2) 
+
+# Allowing p_r and p_g to differ
+#ps <- expand.grid(p=seq(0.5,0.95,0.05), p_g=seq(0.5,0.95,0.05))
+#df <- as.data.frame(cbind(ps, t(apply(ps, 1, function(x, cons, d) eval_p(x[1], x[2], cons, d), cons=cons, d=0.3))))
+#names(df)[3:5] <- c("c_0", "c_1", "n")
+
+#ggplot(df, aes(p, p_g, colour=n, z=n)) + geom_point() + geom_contour() + coord_fixed()
+```
+So, we see that in order to maintain the actual type I and II error rates whilst reducing the sample size, we actually need the probability of making the correct decision to be quite high. In this example, we need $p \approx 0.8$ to get a reduction of 20\%.
+
+The three outcome designs described in the literature seem to be motivated by either a desire to reduce sample size while maintaining low error rates, or to incorporate other information into the decision making process if the efficacy outcome is not convincing either way. Our re-formulation highlights the problems with these perspectives. We have shown that to significantly reduce sample size we may need to have a high probability of making the correct decision after seeing an inconclusive result (e.g. requiring $p \approx 0.8$ to get a 20\% reduction in the above example). If the decision is to consider other endpoints, then if these are uncorrelated with efficacy we should get $p=0.5$ and so no reduction in sample size. In fact for $p=0.5$, if we want to include an inconclusive region then we will have to _increase_ sample size, contraty to the argument presented in [@Sargent2001]. On the other hand, our analysis shows that if we know that $p > 0.5$ then it will always be optimal to have an inconclusive region (although the impact may be minimal and so in practice not worth doing).
+
+Note that under the "extra endpoint" approach we may have something which is negatively correlated with efficacy, like toxicity. So in this case if we make the decision based on it being low toxicity, we are making it more likely that it will be inefficacious. However, this won't impact on the optimal design since it will be optimal to have no inconclusive region just as when $p=0.5$. 
+
+
+### Comparison
+
+Suppose we have a fixed pilot size of 60 participants. Find the set of admissable designs for each approach and then evaluate their true type I and II error rate.
+
+```{r}
+g1 <- function(rule, n, d_0, d_1, cons)
+{
+  ocs <- get_ocs(rule, n, d_1-d_0)
+  penalty <- 1000*sum(sapply(ocs[3:4] - cons, max, 0))
+  return(ocs[1:2] + penalty)
+}
+
+opt <- nsga2(g1, 2, 2, lower.bounds = c(-1,0), upper.bounds = c(2,2), n=60, d_0=0, d_1=0.3, cons=rep(0,2))
+plot(opt$value)
+des0 <- opt$par
+
+opt <- nsga2(g1, 2, 2, lower.bounds = c(-1,0), upper.bounds = c(2,2), n=60, d_0=0, d_1=0.3, cons=rep(0.1,2))
+plot(opt$value)
+des1 <- opt$par
+```
+
+
+```{r}
+g2 <- function(rule, n, d_0, d_1, p)
+{
+  ocs <- get_ocs2(rule, n, d_1-d_0, p)
+  return(ocs)
+}
+
+p <- 0.8
+opt <- nsga2(g2, 2, 2, lower.bounds = c(-1,0), upper.bounds = c(2,2), n=60, d_0=0, d_1=0.3, p=p)
+plot(opt$value)
+des2 <- opt$par
+
+df <- NULL
+
+# Evaluate the other designs
+tmp <- des0
+tmp <- cbind(tmp, t(apply(tmp, 1, get_ocs2, n=60,  p=p, d=0.3)))
+df <- rbind(df, tmp[,3:4])
+tmp <- des1
+tmp <- cbind(tmp, t(apply(tmp, 1, get_ocs2, n=60,  p=p, d=0.3)))
+df <- rbind(df, tmp[,3:4])
+tmp <- des2
+tmp <- cbind(tmp, t(apply(tmp, 1, get_ocs2, n=60,  p=p, d=0.3)))
+df <- rbind(df, tmp[,3:4])
+
+df <- as.data.frame(df)
+df$t <- c(rep("a",100), rep("b",100), rep("c",100))
+
+# a = usual two outcome
+# b = Sargent OCs allowing eta = gamma = 0.1
+# c = proper 3 outcome when p = 0.8
+ggplot(df, aes(V1, V2, colour=t)) + geom_point()
+```
+
+#### Discussion
+
+Although motivated by the pilot problem, this work is more a direct elaboration of the original Sargeant design and more applicable to the usual trial setting (particularly phase II?). The most striking implication comes from the motivation in that paper - they note that having an "inconclusive" outcome when the statistic is borderline is common practice. Our results show that when we appeal to other information is such cases, unless it is associated with efficacy we will increase our error rates.
+
+### Modifications
+
+In pilot trials, one of the apparent motivations for a three outcome design is the imprecision of the estimates, so an "incolnclusive" region allows error rates to be controlled and other information to be used in borderline cases. In the above we have shown that this doesn't exactly hold. But another motivation is to allow modification to the protocol - e.g. we don't want to throw something away for missing a threshold if we feel we know why it was missed and how to rectify.
+
+An implication is that we can't use pre-specified criteria in the form of sample thresholds. Rather, we will need a method to tell us what these thresholds should be, after observing the pilot and getting an idea as to what modifications are possible.
+
+#### Conditional
+
+One approach to the problem is to model the modification process expected, but this is difficult  since we do not know what kind of effects will be available until we see the result of the pilot. An example used in [@Avery2017] is a pilot reporting slow recruitment, but a trial manager being absent due to sickness. After observing this, we might reasonably expect a large increase in recruitment rate to result from merely ensuring proper staffing levels are maintained. 
+
+We now assume that an $a$ desicion means to first modify and then proceed. Modification leads to an increase in the parameter $\mu$ by some amount $m$. We condition on $m$, assuming that it will be known after the pilot. Then we have three types of errors we are interesting in controlling. A type I error will occur when we make decision $g$ with $\mu < \mu_0$, or decision $a$ with $\mu < \mu_0 - m$. A type II will occur when we make decision $r$ when $\mu < \mu_1 - m$. and a type III error, the mistake of modification when it is not needed, will occur when we make decision $a$ when either $\mu < \mu_0 - m$ or $\mu > \mu_1$.
+
+```{r}
+get_ocs4 <- function(rule, n, d, d_0, d_1, m)
+{
+  sd <- 1; msd <- sd/sqrt(n)
+
+  # red decision
+  pr <- pnorm(rule[1], d, msd) 
+  # amber decision 
+  pa <- pnorm(sum(rule), d, msd) - pnorm(rule[1], d, msd)
+  # green decision
+  pg <- 1-pnorm(sum(rule), d, msd)
+  pr; pa; pg
+  
+  a <- pg*(d<=d_0) + pa*((d+m)<=d_0)
+  b <- pr*((d+m)>=d_1) 
+
+  return(c(a,b,pa*( (d+m)<=d_0 | d>=d_1)))
+}
+
+# For example, 
+d_0 <- 0; d_1 <- 0.3; n <- 60; d <- 0; m <- 0.5
+get_ocs4(c(0.1, 0.1), n, d, d_0, d_1, m)
+```
+Now we define the error rates to be the maximals over $\mu$:
+
+```{r}
+get_max_ocs4 <- function(rule, n, d_0, d_1, m)
+{
+  # max alpha
+  a <- max(get_ocs4(rule, n, d=d_0, d_0, d_1, m)[1], get_ocs4(rule, n, d=d_0-m, d_0, d_1, m)[1])
+  
+  # max beta
+  b <- get_ocs4(rule, n, d=d_1-m, d_0, d_1, m)[2]
+  
+  # max prob of an inconclusive result when unwarrented
+  g <- max(get_ocs4(rule, n, d=d_0-m, d_0, d_1, m)[3], get_ocs4(rule, n, d=d_1, d_0, d_1, m)[3])
+  
+  return(c(a,b,g))
+}
+
+# For example,
+get_max_ocs4(c(-0.15, 0.2), n, d_0, d_1, m)
+```
+
+Can we design the pilot trial without knowing what modification effect $m$ will be available to us after its completion? Suppose we condition on a hypothetical $m$, for the sake of agument $m=0$. We can look at the available error rates given by different progression criteria:
+
+```{r}
+m <- 0.5
+df <- expand.grid(c_0 = seq(-4,1,0.02), c_1 = seq(0,3,0.02))
+df <- cbind(df, t(apply(df, 1, get_max_ocs4, n=n, d_0=d_0, d_1=d_1, m=m)))
+names(df)[3:5] <- c("a", "b", "g")
+
+sub <- unique(df[order(df[,3], df[,4], df[,5]),][,3:5])
+sub2 <- sub[1,]
+for(i in 2:nrow(sub)){
+  if(isTRUE(all.equal(sub[i,1], sub[i-1, 1])) & isTRUE(all.equal(sub[i,2], sub[i-1, 2]))){
+    # do nothing
+  } else {
+    sub2 <- rbind(sub2, sub[i,])
+  }
+}
+
+ggplot(sub2, aes(a, b, colour=g)) + geom_point() + scale_colour_gradientn(colours=rainbow(5)) 
+```
+
+Now choose a specific design based on a weighted combination of error rates:
+```{r}
+i <- which.min(sub2$a + sub2$b)
+df[df$a == sub2[i,1] & df$b == sub2[i,2] & df$g == sub2[i,3],]
+```
+So we have some chosen error rates and the progression criteria which provide them. Note that, as we would expect, there is no "amber" region in this design because we have assumed there is no modification effect. Now, suppose that we complete the pilot and observe a potentia modification $m$. Is there a way to automatically adjust the criteria and ensure the same error rates? Almost. First, we note that type II rate will be kept constant if we subtract $m$ from the lower thereshold $c_0$, so that the threshold moves exactly along with the sampling distribution under $\mu = \mu_1 - m$. Then, we can hold the probability of a $g$ decision under $\mu = \mu_0$ constant by keeping the same upper threshold. As the lower threshold reduces with increasing $m$ and the upper threshold remains fixed, under $\mu = \mu_0 - m$ the probability of decision $g$ will decrease to 0 and the prob of $a$ will increase to 1 - the prob of decisin $r$, which is constant beaucse of the way we are reducing the lower threshold. As a result, both type I and type II are controlled at the original level. Type III error will of course increase as the margin between the two thresholds increases with $m$, but it is bounded. In particular, the probability of deciison $a$ under $\mu = \mu_1$ will never exceed 1 - the prob of $g$ under the same (which is fixed and for $m=0$ equal to the type II rate), and the prob of $a$ under $\mu = \mu_0 - m$ will never exceed 1 - the prob of $r$ under the same (again, fixed, and when $m=0$ equal to the type I rate).
+
+As an example, consdier $m = 0.2$. Having chosen our thresholds under $m=0$ to be 0.16 and 0.16, we can adjust these to -0.04 and 0.16. The error rates we get should be the same as above, except that type III will increase but be bounded by 0.1390859:
+
+```{r}
+m <- 0.2; m_h <- 0.2
+
+get_max_ocs4(rule=c(0.16 - m_h, m_h), n, d_0, d_1, m)
+```
+
+So, our proposal comes down to:
+
+* Assuming there will be no opportinity for improvement, choose progression criteria and sample size to give the desired error rates
+* After observing the pilot, identify the modification effect $m$ and adjust the lower threshold downwards by that amount, keeping the upper threshold fixed
+
+Does this open us up to bias? After the pilot we will have our estimate, and so are free to postulate the $m$ required to bring it just above the lower threshold and into the amber region. Is this what happens in practice now anyway? Could interperet the rationale for an amber region in this way - we set a single threshold (in our case equvalent to the upper threshold), but after seeing the results and reasoning that $m$ is avaliable, we invent a new lower boundary by moving down that amount. 
+
+We have distinguished in the above between the true modification effect and the estimated effect $m_h$. How do the error rates change as this moves around the true value? 
+
+```{r}
+library(reshape2)
+
+m_h <- 0.2
+df <- data.frame(m = seq(m_h-0.1, m_h+0.1, 0.01))
+df <- cbind(df, t(sapply(df$m, function(x, m_h, n, d_0, d_1) 
+  get_max_ocs4(rule=c(0.16 - m_h, m_h), n, d_0, d_1, m=x), n=n, d_0=d_0, d_1=d_1, m_h=m_h)))
+names(df)[2:4] <- c("a", "b", "g")
+
+df2 <- melt(df, id="m")
+
+ggplot(df2, aes(m, value, colour=variable, linetype=variable)) + geom_line() + 
+  geom_vline(xintercept = m_h, linetype=2)
+```
+Coming from a Bayesian perspective, if we characterise our uncertainty about $m$ as a normal distribution, what are the average error rates?
+
+```{r}
+# Simple MC approximation
+ms <- rnorm(10^5, m_h, 0.03)
+hist(ms)
+rs <- t(sapply(ms, function(x, m_h, n, d_0, d_1) 
+  get_max_ocs4(rule=c(0.16 - m_h, m_h), n, d_0, d_1, m=x), n=n, d_0=d_0, d_1=d_1, m_h=m_h))
+hist(rs[,1]); hist(rs[,2])
+```
+
+
+
+### Assessing modification - two pilots
+
+
+
+```{r}
+get_ocs5 <- function(rule, n, d, d_0, d_1, m)
+{
+  sd <- 1; msd <- sd/sqrt(n)
+
+  # red decision
+  pr <- pnorm(rule[1], d, msd) 
+  # amber decision 
+  pa <- pnorm(sum(rule[1:2]), d, msd) - pnorm(rule[1], d, msd)
+  # green decision
+  pg <- 1-pnorm(sum(rule[1:2]), d, msd)
+  pr; pa; pg
+  
+  # If a, run another pilot with a single threshold for red / green
+  pr2 <- pnorm(rule[3], d+m, msd)
+  pg2 <- 1-pnorm(rule[3], d+m, msd)
+  pr2; pg2
+  
+  a <- pg*(d<=d_0) + pa*((d+m)<=d_0)*pg2
+  b <- pr*((d+m)>=d_1) + pa*((d+m)>=d_1)*pr2
+
+  return(c(a,b,n+pa*n))
+}
+
+# For example, 
+d_0 <- 0; d_1 <- 0.3; n <- 60; d <- 0; m <- 0.05
+get_ocs5(c(0.1, 0.1, 0.2), n, d, d_0, d_1, m)
+```
+
+```{r}
+get_max_ocs5 <- function(rule, n, d_0, d_1, m)
+{
+  # max alpha
+  a <- max(get_ocs5(rule, n, d=d_0, d_0, d_1, m)[1], get_ocs5(rule, n, d=d_0-m, d_0, d_1, m)[1])
+  # max beta
+  b <- get_ocs5(rule, n, d=d_1-m, d_0, d_1, m)[2]
+  # max prob of an inconclusive result when unwarrented
+  g <- max(get_ocs5(rule, n, d=d_0-m, d_0, d_1, m)[3], get_ocs5(rule, n, d=d_1, d_0, d_1, m)[3])
+  return(c(a,b,g))
+}
+
+# For example,
+m <- 0.5
+get_max_ocs5(c(0.16-m, m, 0.16), n, d_0, d_1, m)
+
+opt <- nsga2(get_max_ocs5, 3, 3, n=n, d_0=d_0, d_1=d_1, m=m,
+             lower.bounds = c(-5,0,-5), upper.bounds = c(5,5,5), generations = 1000)
+df <- as.data.frame(opt$value)
+
+ggplot(df, aes(V1, V2, colour=V3)) + geom_point()
+
+opt$value[which.min(df$V1+df$V2),]
+opt$par[which.min(df$V1+df$V2),]
+```
+
+
+
+
+
+We include in our model a probability of making the correct decision after getting an inconclusive result (and possibly after applying some modification). One way to improve this would be to collect more data. This might be particularly appropriate after modifications. We might resonably ask how reliable our assessment of a modified intervention must be to justify not going on to assess it further. 
+
+Suppose the first pilot has given an inconclusive result, so we modify and do another pilot. The probability of making a green decision and this being a type I error is
+$$
+Pr[a, g, \text{infeasible}] = \int_{-\infty}^{d_1-d} \big[1 - F_{S|m}(c_{2,2}) \big] f_{M}(m) ~ dm,
+$$
+where $c_{2,2}$ is the stage 2 decision rule for green and $m$ is the modification effect. If $-\infty < m < d_1-d$ then the modification won't be enough to ensure feasibility, so a green decision will be a type I error. We can also make a type I error by getting an amber decision in the second stage, when the modification hasn't worked, and then making an incorrect decision using our judgment. The probability of getting the amber decision with an ineffective modification is
+$$
+Pr[a, a, \text{infeasible}] = \int_{-\infty}^{d_1-d} \big[F_{S|m}(c_{2,2}) - F_{S|m}(c_{2,1}) \big] f_{M}(m) ~ dm,
+$$
+so that the total type I error is
+$$
+
+$$
+
+```{r}
+# Two pilot trials
+
+get_ocs4 <- function(rule1, rule2, n1, n2, d, d_0, d_1, p)
+{
+  sd <- 1; msd1 <- sd/sqrt(n1); msd2 <- sd/sqrt(n2)
+
+  # red decision
+  pr1 <- pnorm(rule1[1], d, msd1) 
+  # amber decision 
+  pa1 <- pnorm(sum(rule1), d, msd1) - pnorm(rule1[1], d, msd1)
+  # green decision
+  pg1 <- 1-pnorm(sum(rule1), d, msd1)
+
+  # Prob of a type I = Pr[ pass rule & modification unsuccessful ]
+  # prob of type I when stage 1 decision is g
+  prob_tI_g <- as.numeric(d < d_0)
+  # prob of type I when stage 1 decision is a, by making a stage 2 g decision
+  prob_tI_a_g <- integrate(function(M, d, rule2, msd2) (1-pnorm(sum(rule2), d+M, msd2))*dnorm(M, 0.15, 0.09),
+                      d=d, rule2=rule2, msd2=msd2,
+                      lower=-Inf, upper=d_0-d)$value
+  # prob of making a stage 2 a decision with a null effect
+  prob_tI_a_a <- integrate(function(M, d, rule2, msd2) (pnorm(sum(rule2), d+M, msd2) - pnorm(rule2[1], d+M, msd2))*dnorm(M, 0.15, 0.09),
+                      d=d, rule2=rule2, msd2=msd2,
+                      lower=-Inf, upper=d_0-d)$value
+  
+  a <- pr1*0 + pg1*prob_tI_g + pa1*(prob_tI_a_g + prob_tI_a_a*(1-p))
+  
+  # Prob of a type II = Pr[ !pass rule & modification successful]
+  # prob of type II when stage 1 decision is r
+  prob_tII_r <- 1-pnorm(d_1-d, 0.15, 0.09)
+  # prob of type I when stage 1 decision is a, by making a stage 2 r decision
+  prob_tII_a_r <- integrate(function(M, d, rule2, msd2) (pnorm(rule2[1], d+M, msd2))*dnorm(M, 0.15, 0.09),
+                      d=d, rule2=rule2, msd2=msd2,
+                      lower=d_1-d, upper=Inf)$value
+  # prob of making stage 2 a decision with good effect
+  prob_tII_a_a <- integrate(function(M, d, rule2, msd2) (pnorm(sum(rule2), d+M, msd2) - pnorm(rule2[1], d+M, msd2))*dnorm(M, 0.15, 0.09),
+                      d=d, rule2=rule2, msd2=msd2,
+                      lower=d_1-d, upper=Inf)$value
+  b <- pg1*0 + pr1*prob_tII_r + pa1*(prob_tII_a_r + prob_tII_a_a*(1-p))
+  
+  return(c(a,b,pa1))
+}
+
+get_max_ocs4 <- function(rule1, rule2, n1, n2, d_0, d_1, p)
+{
+  # max alpha
+  opt_a <- optim(par=0, fn=function(x, rule1, rule2, n1, n2, d_0, d_1, p){-get_ocs4(rule1, rule2, n1, n2, x, d_0, d_1, p)[1]}, rule1=rule1, rule2=rule2, n1=n1, n2=n2, d_0=d_0, d_1=d_1, p=p,
+                 lower = -1, upper = d_0, method="Brent")
+  # max beta
+  opt_b <- optim(par=0, fn=function(x, rule1, rule2, n1, n2, d_0, d_1, p){-get_ocs4(rule1, rule2, n1, n2, x, d_0, d_1, p)[2]}, rule1=rule1, rule2=rule2, n1=n1, n2=n2, d_0=d_0, d_1=d_1, p=p,
+                 lower = d_0, upper = 1, method="Brent")
+  
+  opt_g <- optim(par=0, fn=function(x, rule1, rule2, n1, n2, d_0, d_1, p){-get_ocs4(rule1, rule2, n1, n2, x, d_0, d_1, p)[3]}, rule1=rule1, rule2=rule2, n1=n1, n2=n2, d_0=d_0, d_1=d_1, p=p,
+                 lower = -1, upper = 1, method="Brent")
+
+  a <- -opt_a$value; b <- -opt_b$value; g <- -opt_g$value
+
+  return(c(a,b,g))
+}
+
+obj_f4 <- function(x, d_0, d_1, p)
+{
+  cons <- c(0.05, 0.2)
+  ocs <- get_max_ocs4(x[1:2], x[3:4], x[5], x[6], d_0, d_1, p)
+  penalty <- 1000*sum(sapply(ocs - cons, max, 0))
+  #x[5]+x[6] + penalty
+  c(x[5]+x[6], ocs)
+}
+
+opt <- psoptim(par=rep(NA,6), fn=obj_f4, d_0=0, d_1=0.3, p=0.5,
+               lower=c(-2,0,-2,0,1,1), upper = c(3,3,3,3,1000,1000))
+
+opt <- nsga2(obj_f4, 6, 3, lower.bounds = c(-2,0,-2,0,1,1), upper.bounds = c(3,3,3,3,500,500),
+             d_0=0, d_1=0.3, p=0.5,
+             generations = 100, popsize = 100)
+df <- as.data.frame(opt$value)
+df <- df[df$V2 < 0.5 & df$V3 < 0.5,]
+ggplot(df, aes(V2, V3, colour=V1)) + geom_point() + scale_colour_gradientn(colours=rainbow(5))
+
+g4 <- function(x, n1, n2, d_0, d_1, p)
+{
+  cons <- c(0.05, 0.2)
+  ocs <- get_max_ocs4(x[1:2], x[3:4], n1, n2, d_0, d_1, p)
+  ocs
+}
+
+opt <- nsga2(g4, 4, 3, lower.bounds = c(-2,0,-2,0), upper.bounds = c(3,3,3,3),
+             d_0=0, d_1=0.3, p=0.5, n1=60, n2=60,
+             generations = 100, popsize = 100)
+df <- as.data.frame(opt$value)
+ggplot(df, aes(V1, V2, colour=V3)) + geom_point() + scale_colour_gradientn(colours=rainbow(5))
+```
+
+# Notes
+
+#### Marginal
+
+A simple model:
+
+$$
+Pr[ \mu + M > \mu_1 ~|~ \mu] = 
+\begin{cases}
+0 \text{ for }\mu < \mu_0, \\
+\frac{\mu - \mu_0}{\mu_1 - \mu_0} \text{ for } \mu_0 \leq \mu \leq \mu_1, \\
+1 \text{ for } \mu > \mu_1.
+\end{cases}
+$$
+
+That is, the probability of successful modification is proportional to the position of $\mu$ in the interval $[\mu_0,\mu_1]$. This is equivalent to the increment having a uniform distribution, $M \sim Unif(0, \mu_1 - \mu_0)$. 
+A more realistic model could be that $M$ is normally distributed $M \sim N(m, s^2)$. Indeed, it is likely that in defining the lower threshold $\mu_0$ we take the lowest feasible value $\mu_1$ and subtract from it an amount that we think the parameter could be improved by if necessary. Very generally, suppose that we can specify some distribution $F$ for the modification effect $M$. Then we can get the probabilities of interest, like $Pr_F[M > \mu_1 - \mu ~|~ \mu]$. So from a methods perspective, we can provide a function which accepts an $F$ as an argument.
+
+We can incorporate this into our type I and II error rates by generalising the definition of a hypothesis. We now consider a value $\mu$ to have a probability of being in $H_R$ and in $H_G$ after a modification porcess has been carried out. From our model above, we know that $\mu \in H_R$ with probability 1 if $\mu < \mu_0$, and likewise $\mu \in H_G$ if $\mu > \mu_1$. We include $\mu$ in $H_R$ even if the amber desicion is not made, and so no modification actually happens - so we are dealing with counterfactuals. so if $\mu_0 < \mu < \mu_1$, it contributes to both a type I and type II error, because there is a chance that after modification $\mu + M$ may lie on either side of $\mu_1$. We are including situations like the following as an error: The true parameter is $\mu$ and the modification we will pick (at random) will push it into the feasible region, but we ultimately decide to stop dveelopment - type II error. 
+Under these error rate definitions, we can no longer say in advance where in the parameter space type I and II error rates will be maximised - we have to search instead.
+
+```{r}
+get_ocs3 <- function(rule, n, d, p, d_0, d_1)
+{
+  sd <- 1; msd <- sd/sqrt(n)
+
+  # red decision
+  pr <- pnorm(rule[1], d, msd) 
+  # amber decision 
+  pa <- pnorm(sum(rule), d, msd) - pnorm(rule[1], d, msd)
+  # green decision
+  pg <- 1-pnorm(sum(rule), d, msd)
+  
+  # Probability of being in alternative, possibly after some (maybe hypothetical) modifications
+  p_mod_1 <- min(max((d - d_0)/(d_1 - d_0), 0), 1)
+  
+  # Probability of being in null, possibly after some (maybe hypothetical) modifications
+  d_m1 <- 2*d_0 - d_1
+  p_mod_0 <- min(max((1 - (d - d_m1)/(d_0 - d_m1)), 0), 1)
+  
+  # p is the probability of making the correct decision based on the true feasibility
+  a <- pr*0 + pg*as.numeric(d<=d_0) + pa*p_mod_0*(1-p)
+  b <- pg*0 + pr*p_mod_1 + pa*p_mod_1*(1-p) 
+  
+  return(c(a,b,pa))
+}
+
+get_max_ocs <- function(rule, n, p, d_0, d_1)
+{
+  # max alpha
+  opt_a <- optimize(f=function(x, rule, n, p, d_0, d_1){-get_ocs3(rule, n, x, p, d_0, d_1)[1]}, 
+                 rule=rule, n=n, p=p, d_0=d_0, d_1=d_1,
+                 lower = -2, upper = d_0)
+  a <- opt_a$objective
+  
+  # max beta
+  opt_b <- optimize(f=function(x, rule, n, p, d_0, d_1){-get_ocs3(rule, n, x, p, d_0, d_1)[2]}, 
+                 rule=rule, n=n, p=p, d_0=d_0, d_1=d_1,
+                 lower = d_0, upper = 2)
+  b <- opt_b$objective
+  
+  # max prob of modification
+  opt_g <- optimize(f=function(x, rule, n, p, d_0, d_1){-get_ocs3(rule, n, x, p, d_0, d_1)[3]}, 
+                 rule=rule, n=n, p=p, d_0=d_0, d_1=d_1,
+                 lower = d_0, upper = 2)
+  g <- opt_g$objective
+  
+  return(c(-a, -b, -g))
+}
+
+ex_ocs <- get_max_ocs(c(0.1116075, 0.1249870), n=74, p=0.8, d_0=0, d_1=0.3)
+ex_ocs
+
+library(mco)
+
+opt <- nsga2(get_max_ocs, 2, 3, lower.bounds = c(-2,0), upper.bounds = c(3,3), n=120, p=0.5, d_0=0, d_1=0.3,
+             popsize = 200, generations = 500)
+df <- as.data.frame(opt$value)
+ggplot(df, aes(V1, V2, colour=V3)) + geom_point() + scale_colour_gradientn(colours=rainbow(5)) 
+
+g3 <- function(x, p, d_0, d_1)
+{
+  cons <- c(0.05, 0.1)
+  ocs <- get_max_ocs(x[1:2], x[3], p, d_0, d_1)[1:2]
+  penalty <- 100000*sum(sapply(ocs - cons, max, 0))
+  return(x[3] + penalty)
+}
+
+opt <- psoptim(par=rep(NA,3), fn=g3, p=0.6, d_0=0, d_1=0.3, lower=c(-2,0,1), upper = c(3,3,1000))
+```
+
+### d
+
+So far we have considered a frequentist conditional approach, showing this cant work when pre-specifying an amber region, and discussed the bias which would result from estimating modification effects after the pilot; and a semi-Bayesian approach, putting a prior on the modification effect, which is almost impossible to do prior to seeing the pilot data (but this approach would lend itself to a two-pilot system, allowing us to start with a very vague prior and then update it). So we could stop here, and present these results as reasons not to do traffic light decision rules in pilots.
+
+Another approach. Similar to the Sargeant discussion, can we use a very simple model. If we land in the amber region and the true modification will take us to the null, the have a probability of correctly identifying this; and similarly if the true modification will take us to the alt. As in Sargeant, we don't think about error rates for the middle parameter section. 
+
+# References
