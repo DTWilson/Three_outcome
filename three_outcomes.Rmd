@@ -90,7 +90,10 @@ f <- function(n, cons, p0, p1, rules)
   # Report the OCs of the rules with lowest score
   c(min(tot), ocs[which.min(tot),], as.numeric(rules[which.min(tot),]))
 }
+```
 
+Considering a maximum sample size of 100, we can now look at all possible sample sizes and find the lowest which satisfies our error constraints. For example, suppose we set $(\alpha, \beta, \eta, \lambda) = (0.025, 0.2, 0.1, 0.1)$:
+```{r}
 # Generate all possible rules (up to a maximum sample size)
 rules <- expand.grid(r1 = 0:100, r2 = 0:100)
 rules <- rules[rules$r2 >= rules$r1,]
@@ -100,20 +103,32 @@ df <- data.frame(n=0:100)
 df <- cbind(df, t(sapply(df$n, f, cons=cons, p0=p0, p1=p1, rules=rules)))
 df$v <- df$V1 < 100
 df$V1 <- df$V1 - 100*(!df$v)
-df$c <- 0.1
 
-cons <- c(0.025, 0.2, 0, 0)
-df2 <- data.frame(n=0:100)
-df2 <- cbind(df2, t(sapply(df2$n, f, cons=cons, p0=p0, p1=p1, rules=rules)))
-df2$v <- df2$V1 < 100
-df2$V1 <- df2$V1 - 100*(!df2$v)
-df2$c <- 0
-
-ggplot(rbind(df, df2), aes(n, V1, colour=v, shape=as.factor(c))) + geom_point()
+ggplot(df, aes(n, V1, colour=v)) + geom_point()
 
 df[df$v,][1,]
-df2[df2$v,][1,]
 ```
+
+The optimal design has a sample size of 42. It will mandate a red decision if there are 26 or less adhereres, an amber decision if there are exactly 27, and a green decision if there are 28 or more. The actual error rates here are $(\alpha, \beta, \eta, \lambda) = (0.022, 0.16, 0.022, 0.093)$.
+
+Compare this against the optimal design when we constrain to $(\eta, \lambda) = (0, 0)$:
+
+```{r}
+cons <- c(0.025, 0.2, 0.0, 0.0)
+df <- data.frame(n=0:100)
+df <- cbind(df, t(sapply(df$n, f, cons=cons, p0=p0, p1=p1, rules=rules)))
+df$v <- df$V1 < 100
+df$V1 <- df$V1 - 100*(!df$v)
+
+ggplot(df, aes(n, V1, colour=v)) + geom_point()
+
+df[df$v,][1,]
+```
+
+The optimal sample size has increased to 49. As we would expect, the two cutoffs in the decision rule coincide. We now make a red decision if we see 31 or fewer adherers, and otherwise make a green decision. The actual error rates are $(\alpha, \beta, \eta, \lambda) = (0.022, 0.19, 0, 0)$.
+
+
+
 
 So, if we set constraints to the usual $\alpha < 0.05, \beta < 0.1$ and ask for $\eta = \lambda = 0$, then we just have the usual two-outcome design:
 ```{r}
