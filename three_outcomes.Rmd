@@ -63,7 +63,9 @@ So, for example, we get a type I error rate of 0.100 and a type II of 0.159 if o
 
 Here we consider the argument that a fixed stop/go threshold for a PC is too inflexible, and that we will want some freedom to consider the bigger picture if the outcome is borderline. This is the motivation for Sargents three outcome design. Here, we have a stop and a go result, and an intermediate `inconclusive' result.
 
-First, apply the design off-the-shelf, which means defining two more operating characteristics and constraining these in addition to the usual $\alpha$ and $\beta$. These other OCs are the probabilities of getting an inconclusive result under $R$ or $G$, which we denote $\eta$ and $\lambda$. We are free to constrain these at different levels if we feel one error is more important than the other.
+First, apply the design off-the-shelf, which means defining two more operating characteristics and constraining these in addition to the usual $\alpha$ and $\beta$. These other OCs are the probabilities of getting an inconclusive result under $R$ or $G$, which we denote $\lambda$ and $\delta$. We are free to constrain these at different levels if we feel one error is more important than the other.
+
+Note - when comparing against the Sargent paper, we are using the constraints of $\lambda$ and $\delta$ rather then $\eta$ and $\pi$. This is entirely equivalent, but means all four rates are to be minimised. For the cutoffs, the lower boundary is specified in the same way (make a red dedision if x is less than or equal to c), whereas the upper boundary is different (for us, we go if x is greater than c, but they go if if is greater than or equal to c). Finally, they use a normal approximation and this leads to different answers to our exact binomial calculations.
 
 ```{r}
 get_ocs <- function(rule, n, p0, p1)
@@ -71,10 +73,10 @@ get_ocs <- function(rule, n, p0, p1)
   # rule = (cutoff 1, cutoff 2)
   alpha <- 1 - pbinom(rule[,2], n, p0)
   beta <- pbinom(rule[,1], n, p1)
-  eta <- 1 - pbinom(rule[,1], n, p0) - alpha
-  lambda <- pbinom(rule[,2], n, p1) - beta
+  lambda <- 1 - pbinom(rule[,1], n, p0) - alpha
+  delta <- pbinom(rule[,2], n, p1) - beta
     
-  return(cbind(alpha, beta, eta, lambda))
+  return(cbind(alpha, beta, lambda, delta))
 }
 
 f <- function(n, cons, p0, p1, rules)
@@ -92,7 +94,7 @@ f <- function(n, cons, p0, p1, rules)
 }
 ```
 
-Considering a maximum sample size of 100, we can now look at all possible sample sizes and find the lowest which satisfies our error constraints. For example, suppose we set $(\alpha, \beta, \eta, \lambda) = (0.025, 0.2, 0.1, 0.1)$:
+Considering a maximum sample size of 100, we can now look at all possible sample sizes and find the lowest which satisfies our error constraints. For example, suppose we set $(\alpha, \beta, \lambda, \delta) = (0.025, 0.2, 0.1, 0.1)$:
 ```{r}
 # Generate all possible rules (up to a maximum sample size)
 rules <- expand.grid(r1 = 0:100, r2 = 0:100)
@@ -109,9 +111,9 @@ ggplot(df, aes(n, V1, colour=v)) + geom_point()
 df[df$v,][1,]
 ```
 
-The optimal design has a sample size of 42. It will mandate a red decision if there are 26 or less adhereres, an amber decision if there are exactly 27, and a green decision if there are 28 or more. The actual error rates here are $(\alpha, \beta, \eta, \lambda) = (0.022, 0.16, 0.022, 0.093)$.
+The optimal design has a sample size of 42. It will mandate a red decision if there are 26 or less adhereres, an amber decision if there are exactly 27, and a green decision if there are 28 or more. The actual error rates here are $(\alpha, \beta, \lambda, \delta) = (0.022, 0.16, 0.022, 0.093)$.
 
-Compare this against the optimal design when we constrain to $(\eta, \lambda) = (0, 0)$:
+Compare this against the optimal design when we constrain to $(\lambda, \delta) = (0, 0)$:
 
 ```{r}
 cons <- c(0.025, 0.2, 0.0, 0.0)
@@ -125,70 +127,68 @@ ggplot(df, aes(n, V1, colour=v)) + geom_point()
 df[df$v,][1,]
 ```
 
-The optimal sample size has increased to 49. As we would expect, the two cutoffs in the decision rule coincide. We now make a red decision if we see 31 or fewer adherers, and otherwise make a green decision. The actual error rates are $(\alpha, \beta, \eta, \lambda) = (0.022, 0.19, 0, 0)$.
+The optimal sample size has increased to 49. As we would expect, the two cutoffs in the decision rule coincide. We now make a red decision if we see 31 or fewer adherers, and otherwise make a green decision. The actual error rates are $(\alpha, \beta, \lambda, \delta) = (0.022, 0.19, 0, 0)$.	
 
+We might be tempted by the design which reduces the sample size by 7 at the cost of a 0.022 prob of getting an inconclusive result under the null, and a 0.09 prob of an inconclusive result under the alternative. Is this worth it? We need to understand the impact of these errors to make this judgement. We might reasonably doubt our ability to effectively balance the costs of these errors against the usual $\alpha$ and $\beta$ and the sample size, given that this is rarely done in the usual two outcome case (where we stick to default nominal values and find the smallest $n$ that satisfies). Below we consider an alternative formulation which replaces the error rates $\lambda$ and $\delta$, which are to be _chosen_, with two probabilities, which can be _estimated_.
 
+### Three outcome test (ii)
 
+The first thing to note here is that the way they define their actions and error rates is not quite right. They say: "We  can interpret $\alpha$ in the usual  manner,  i.e., the  maximum probability  of making an erroneous decision by rejecting the null hypothesis when in fact itis true". Although this can be held as strictly true if we focus on the action of "rejecting the null", in practice the action of interest is making a progression decision. Thus, a type I error should be defined as making a go decision under the null. With this definition, we now see that we could make a type I error in two ways: by crossing the upper cutoff; or by getting an intermediate result, appealing to other endpoints, and then making the decision to proceed. A similar argument holds for type II errors.
 
-So, if we set constraints to the usual $\alpha < 0.05, \beta < 0.1$ and ask for $\eta = \lambda = 0$, then we just have the usual two-outcome design:
-```{r}
-library(pso)
+Suppose we use a simple model for what happens following an inconclusive result. Under $H_0$, we denote the probability that we will go on to make a "red" decision $\rho_r$. Under $H_1$, we denote the probability that we will make a "green" decision $\rho_g$. For simplicity, we will assume that $\rho_r = \rho_g = \rho$, i.e. there is a single probability for making the correct decision under either of these hypotheses. Type I and II error rates are now
 
-# Choose some constraints
-cons <- c(0.05, 0.1, 0, 0)
-
-opt <- psoptim(par=c(0.1, 0, 10), fn=obj_f, cons=cons, d=0.3, lower=c(-1,0,1), upper = c(2,2,1000))
-opt$par
-get_ocs(opt$par[1:2], opt$par[3], d=0.3)
-
-# Compare with:
-power.t.test(delta=0.3, sd=1, power=0.9, type="o", alternative="o")
-```
-If we want to keep the same $\alpha$ and $\beta$ levels but reduce the sample szie, we can relax the other two constraints:
-```{r}
-# Choose some constraints
-cons <- c(0.05, 0.1, 0.1, 0.1)
-
-opt <- psoptim(par=c(0.1, 0, 10), fn=obj_f, cons=cons, d=0.3, lower=c(-1,0,1), upper = c(2,2,1000))
-opt$par
-get_ocs(opt$par[1:2], opt$par[3], d=0.3)
-```
-Here, we reduce the sample size by about 26, at the cost of now having a 0.064 prob of getting an inconclusive result under the null, and a 0.1 prob of an inconclusive result under the alternative. Is this worth it? We need to understand the impact of these errors to make this judgement. We might reasonably doubt our ability to effectively balance the costs of these errors against the usual $\alpha$ and $\beta$ and the sample size, given that this is rarely done in the usual two outcome case (where we stick to default nominal values and find the smallest $n$ that satisfies). Belwo we consider an alternative formulation which replaces the error rates $\eta$ and $\lambda$, which are to be _chosen_, with two probabilities, which can be _estimated_.
-
-### Modelling inconclusive decisions
-
-Suppose we use a simple model for what happens following an inconclusive result. Under $H_R$, we denote the probability that we will go on to make a "red" decision $p_r$. Under $H_G$, we denote the probability that we will make a "green" decision $p_g$. For simplicity, we will assume that $p_r = p_g = p$, i.e. there is a single probability for making the correct decision under either of these hypotheses. We now see that our calculations for $\alpha$ and $\beta$ as done above are not correct - we can make a type I error under $H_R$ both by getting a "green" decision straight away, but also by first being inconclusive and then deciding to go ahead. Now,
 $$
 \begin{aligned}
-\alpha & = Pr[g ~|~ H_R] + (1-p)Pr[a ~|~ H_R], \\
-\beta & = Pr[r ~|~ H_G] + (1-p)Pr[a ~|~ H_G].
+\alpha & = Pr[g ~|~ H_R] + (1-\rho)Pr[a ~|~ H_R], \\
+\beta & = Pr[r ~|~ H_G] + (1-\rho)Pr[a ~|~ H_G].
 \end{aligned}
 $$
 
-```{r}
-get_ocs2 <- function(rule, n, d, p, p_g=p)
-{
-  sd <- 1; msd <- sd/sqrt(n)
-  
-  alpha <- 1-pnorm(sum(rule), 0, msd)
-  beta <- pnorm(rule[1], d, msd)
+Implementing this change:
 
-  # Actual type I prob:
-  a <- alpha + (1-p)*(pnorm(sum(rule), 0, msd) - pnorm(rule[1], 0, msd))
-  
-  # Actual type II prob:
-  b <- beta + (1-p_g)*(pnorm(sum(rule),d, msd) - pnorm(rule[1], d, msd))
-    
-  return(c(a, b))
-}
-  
-obj_f2 <- function(x, cons, d, p, p_g=p)
+```{r}
+f2 <- function(n, cons, p0, p1, rules, rho)
 {
-  ocs <- get_ocs2(x[1:2], x[3], d, p, p_g)
-  penalty <- 1000*sum(sapply(ocs - cons, max, 0))
-  return(x[3] + penalty)
+  # Get possible rules for this sample size
+  rules <- rules[rules$r1 <= n & rules$r2 <= n,]
+  # Get OCs for each rule
+  ocs <- get_ocs(rules, n, p0, p1)
+  # Update the type I and II errors
+  ocs[,1] <- ocs[,1] + (1-rho)*ocs[,3]; ocs[,2] <- ocs[,2] + (1-rho)*ocs[,4]
+  # Note which rules are within the constraints
+  valid <- apply(ocs, 1, function(x) sum(x <= cons) == 4)
+  # Calculate the sum of error rates and add a penalty term if not vaid
+  tot <- apply(ocs, 1, sum) + 100*(!valid)
+  # Report the OCs of the rules with lowest score
+  c(min(tot), ocs[which.min(tot),], as.numeric(rules[which.min(tot),]))
 }
 ```
+
+For example, how would the optimal design change if we have $rho = 0.8$?
+
+```{r}
+cons <- c(0.025, 0.2, 0.1, 0.1)
+df <- data.frame(n=0:100)
+df <- cbind(df, t(sapply(df$n, f2, cons=cons, p0=p0, p1=p1, rules=rules, rho=0.5)))
+df$v <- df$V1 < 100
+df$V1 <- df$V1 - 100*(!df$v)
+
+ggplot(df, aes(n, V1, colour=v)) + geom_point()
+
+df[df$v,][1,]
+```
+
+As expected, we need to increase the sample size from 42 to 45 in order to allow for the imperfect decision making following an intermediate outcome. We can also see that if $\rho = 0.5$, which is to say that the stop/go decision following an intermediate outcome is a complete guess, then the optimal three-outcome design reduces to the usual two-outcome design. So, we see that the supposed efficiency of a three outcome design (in Sargents paper they note it provides a way to obtain more managable sample sizes than the two-outcome design) is actually contingent on an ability to make good decisions following an intermediate result.
+
+Note that we have included the same constraints on $\lamda$ and $\delta$ as before. We could argue that, having revised the definitions of type I and II errors, these "errors" are no longer of much interest. In this case, we can use the emthod as is but setting constraints of 1. Alternatively, it may be that we do want to limit these probabilities of incorectly getting an intermediate outcome - perhaps if the process of looking at the rest of the data is costly and we would like to avoid it if necessary. 
+
+In our pilot trial context, does this corrected three-outcome design make sense?
+
+
+
+
+
+
 
 First, assume that $p=0.5$ - we have no ability to make the correct decision after an inconclusive result, and will just flip a coin. What is the optimal design?
 
