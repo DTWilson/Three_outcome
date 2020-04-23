@@ -182,68 +182,39 @@ As expected, we need to increase the sample size from 42 to 45 in order to allow
 
 Note that we have included the same constraints on $\lamda$ and $\delta$ as before. We could argue that, having revised the definitions of type I and II errors, these "errors" are no longer of much interest. In this case, we can use the emthod as is but setting constraints of 1. Alternatively, it may be that we do want to limit these probabilities of incorectly getting an intermediate outcome - perhaps if the process of looking at the rest of the data is costly and we would like to avoid it if necessary. 
 
-In our pilot trial context, does this corrected three-outcome design make sense?
+In our pilot trial context, does this corrected three-outcome design make sense? Does it adress any of the motivations?
+
+i) Want to gain efficiency (hinted at when people say a traffic light system helps deal with the variability of the estimates in pilots, implying we wouldn't need it if variability wasn't an issue) - no, we have shown this efficiency gain is an illusion.
+ii) Want to factor in other endpoints / information (e.g. if we get a borderline recruitment result, can look at follow-up and avoid a futile trial or missing a good treatment) - potentially, see below
+iii) Allow for modifications to be made (next section)
+
+Thinking about the other endpoints argument. If we get a borderline recruitment result, we could look at follow up and decide which way to go. This would mean defining the recruitment hypotheses w.r.t possibe follow-up rates - so we have an area whch would be unsalvagable, and an area which would be unstoppable. These would correspond with bounds on the follow-up parameter. If we considered the full range it wouldn't make sense - e.g. a follow-up rate of 0 should always give a red decision. More broadly, we would be defining the green recruitment area as that which we want to proceed regardless of other parameters, and the red area similarly by that which should always lead to stopping regardless. So it doesn't deal woth the problem perfectly, but is better than a strict two outcome design. BUT, if we want to use it then we will actually need to inflate the sample size from the usual two-outcome design if $\rho = 0.5$ (which we could argue would be a conservative assumption). 
+
+### Three outcomes (modifcation)
+
+A common reason to allow an amber region in progression criteria is so that some modification can be made to the intervention or trial design to mitigate a problem. In general, this is completely ill-suited to a pre-specified hypothesis testing approach, beacuse we will not know a priori what kind of modifications will be possible, or what effect they will have.
+
+Take the example in the Avery paper, where a trial manager was sick and so recruitment rate was poor. After the pilot, a simple modification is clear - ensure cover is provided. This will have a potentially dramatic effect on recruitment, and thus ensure the trial will be feasible. but the effect of the absence in the pilot is extreme, and leads to a very low recruitment estimate.
+
+In the pre-specification framework, we would like in this scenraio for the rate estimate to fall in the amber region, so we can then progress with modification. But we are unlikely to have set the cutoff so low - we would probably have designated this as an unsalvagable case. Then we would be obliged to stop and discard a perfectly good intervention in error.
+
+From this perspective, we might end up with a vanishingly small red area, to avoid tying ourselves to bad decisions. We would end up with a two outcome designs, but where the decisions are either "go" or "think about it, analyse the data, and justify the decision". We want to take everything we have learnt in the pilot, plan any modifications, and then estimate the relevant paraneter and think about our uncertainty in the estimate. If we are very confident, we can argue to proceed; if we are still unsure, we might consider another pilot with the modifications in place. 
+
+There may be special cases where the effect can be estimated a priori - e.g., the effect of opening another centre. This could be incorporated into a three outcome design, where we have a red, amber and green hypothesis (as in WP2 paper). See Hampson proposal.
+
+### Re-cap
+
+So our argument is:
+
+i) pregression criteria are hypothesis tests
+ii) two-outcome tests might not be attractive, for three reasons
+iii) a formal three-outcome design is available and may address these
+iv) we find that it needs to be corrected and show how to do so
+v) we find that the corrected design is no help for the first issue (efficiency)
+vi) we show that it may be useful for the second issue (many endpoints), but will typically need a larger sample and is dificult to operationalise in practice
+vii) we show that it, and pre-specified frequentist tests in geenral, are not suitable for the third issue (making modifications).
 
 
-
-
-
-
-
-First, assume that $p=0.5$ - we have no ability to make the correct decision after an inconclusive result, and will just flip a coin. What is the optimal design?
-
-```{r}
-# Choose some constraints
-cons <- c(0.05, 0.1)
-# Assume an ability to make the correct decision
-p <- 0.5
-
-opt <- psoptim(par=c(0.1, 0, 10), fn=obj_f2, cons=cons, d=0.3, p=p, lower=c(-1,0,1), upper = c(2,2,1000))
-opt$par
-get_ocs2(opt$par[1:2], opt$par[3], d=0.3, p=p)
-get_ocs(opt$par[1:2], opt$par[3], d=0.3)
-```
-It is almost identical to the usual two outcome design - the inconclusive region ais practically 0. As $p$ increases, the optimal design will have an increasingly large inconclusive region and the sample size will reduce:
-
-```{r, eval=T}
-library(ggplot2)
-
-# Assume an ability to make the correct decision
-p <- 0.8
-
-opt <- psoptim(par=c(0.1, 0, 10), fn=obj_f2, cons=cons, d=0.3, p=p, lower=c(-1,0,1), upper = c(2,2,1000))
-opt$par
-get_ocs2(opt$par[1:2], opt$par[3], d=0.3, p=p)
-get_ocs(opt$par[1:2], opt$par[3], d=0.3)
-```
-
-Finding the optimal design for a range of possible $p$ values:
-```{r}
-eval_p <- function(p, p_g=p, cons, d)
-{
-  opt <- psoptim(par=c(0.1,0.1,100), fn=obj_f2, cons=cons, d=d, p=p, p_g=p_g, lower=c(-1,0,1), upper = c(2,3,1000))
-  return(opt$par)
-}
-
-ps <- seq(0.5,0.95,0.05)
-df <- as.data.frame(cbind(ps, t(sapply(ps, eval_p, cons=cons, d=0.3))))
-names(df)[2:4] <- c("c_0", "c_1", "n")
-
-ggplot(df, aes(ps, n)) + geom_point() +
-  geom_hline(yintercept = max(df$n)*0.8, linetype=2) 
-
-# Allowing p_r and p_g to differ
-#ps <- expand.grid(p=seq(0.5,0.95,0.05), p_g=seq(0.5,0.95,0.05))
-#df <- as.data.frame(cbind(ps, t(apply(ps, 1, function(x, cons, d) eval_p(x[1], x[2], cons, d), cons=cons, d=0.3))))
-#names(df)[3:5] <- c("c_0", "c_1", "n")
-
-#ggplot(df, aes(p, p_g, colour=n, z=n)) + geom_point() + geom_contour() + coord_fixed()
-```
-So, we see that in order to maintain the actual type I and II error rates whilst reducing the sample size, we actually need the probability of making the correct decision to be quite high. In this example, we need $p \approx 0.8$ to get a reduction of 20\%.
-
-The three outcome designs described in the literature seem to be motivated by either a desire to reduce sample size while maintaining low error rates, or to incorporate other information into the decision making process if the efficacy outcome is not convincing either way. Our re-formulation highlights the problems with these perspectives. We have shown that to significantly reduce sample size we may need to have a high probability of making the correct decision after seeing an inconclusive result (e.g. requiring $p \approx 0.8$ to get a 20\% reduction in the above example). If the decision is to consider other endpoints, then if these are uncorrelated with efficacy we should get $p=0.5$ and so no reduction in sample size. In fact for $p=0.5$, if we want to include an inconclusive region then we will have to _increase_ sample size, contraty to the argument presented in [@Sargent2001]. On the other hand, our analysis shows that if we know that $p > 0.5$ then it will always be optimal to have an inconclusive region (although the impact may be minimal and so in practice not worth doing).
-
-Note that under the "extra endpoint" approach we may have something which is negatively correlated with efficacy, like toxicity. So in this case if we make the decision based on it being low toxicity, we are making it more likely that it will be inefficacious. However, this won't impact on the optimal design since it will be optimal to have no inconclusive region just as when $p=0.5$. 
 
 
 ### Comparison
