@@ -8,6 +8,7 @@ bibliography: U:\\Literature\\Databases\\DTWrefs.bib
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+require(ggplot2)
 ```
 
 ## Introduction
@@ -53,7 +54,7 @@ tI <- 1 - pbinom(c, 30, p0)
 tII <- pbinom(c, 30, p1)
 
 plot(tI[13:21], tII[13:21])
-c[13:21]
+data.frame(c=c, tI=tI, tII=tII)
 ```
 
 So, for example, we get a type I error rate of 0.100 and a type II of 0.159 if our rule is to stop when we have 18 or fewer adherences, and proceed if we have 19 or more. Note that this corresponds to proportions of 0.6 and 0.63. 
@@ -67,6 +68,7 @@ First, apply the design off-the-shelf, which means defining two more operating c
 ```{r}
 get_ocs <- function(rule, n, p0, p1)
 {
+  # rule = (cutoff 1, cutoff 2)
   alpha <- 1 - pbinom(rule[,2], n, p0)
   beta <- pbinom(rule[,1], n, p1)
   eta <- 1 - pbinom(rule[,1], n, p0) - alpha
@@ -75,23 +77,42 @@ get_ocs <- function(rule, n, p0, p1)
   return(cbind(alpha, beta, eta, lambda))
 }
 
+f <- function(n, cons, p0, p1, rules)
+{
+  # Get possible rules for this sample size
+  rules <- rules[rules$r1 <= n & rules$r2 <= n,]
+  # Get OCs for each rule
+  ocs <- get_ocs(rules, n, p0, p1)
+  # Note which rules are within the constraints
+  valid <- apply(ocs, 1, function(x) sum(x <= cons) == 4)
+  # Calculate the sum of error rates and add a penalty term if not vaid
+  tot <- apply(ocs, 1, sum) + 100*(!valid)
+  # Report the OCs of the rules with lowest score
+  c(min(tot), ocs[which.min(tot),], as.numeric(rules[which.min(tot),]))
+}
+
+# Generate all possible rules (up to a maximum sample size)
 rules <- expand.grid(r1 = 0:100, r2 = 0:100)
 rules <- rules[rules$r2 >= rules$r1,]
 
-f <- function(n, cons, p0, p1, rules)
-{
-  # Get possible rules
-  rules <- rules[rules$r1 <= n & rules$r2 <= n,]
-  ocs <- get_ocs(rules, n, p0, p1)
-  valid <- apply(ocs, 1, function(x) sum(x <= rep(0.1,4)) == 4)
-  if(any(valid)){
-    c(1, ocs[valid,][1,])
-  } else {
-    c(0, rep(1,4))
-  }
-}
+cons <- c(0.025, 0.2, 0.1, 0.1)
+df <- data.frame(n=0:100)
+df <- cbind(df, t(sapply(df$n, f, cons=cons, p0=p0, p1=p1, rules=rules)))
+df$v <- df$V1 < 100
+df$V1 <- df$V1 - 100*(!df$v)
+df$c <- 0.1
 
-f(35, cons, p0, p1, rules)
+cons <- c(0.025, 0.2, 0, 0)
+df2 <- data.frame(n=0:100)
+df2 <- cbind(df2, t(sapply(df2$n, f, cons=cons, p0=p0, p1=p1, rules=rules)))
+df2$v <- df2$V1 < 100
+df2$V1 <- df2$V1 - 100*(!df2$v)
+df2$c <- 0
+
+ggplot(rbind(df, df2), aes(n, V1, colour=v, shape=as.factor(c))) + geom_point()
+
+df[df$v,][1,]
+df2[df2$v,][1,]
 ```
 
 So, if we set constraints to the usual $\alpha < 0.05, \beta < 0.1$ and ask for $\eta = \lambda = 0$, then we just have the usual two-outcome design:
