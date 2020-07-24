@@ -47,17 +47,22 @@ First, consider a standard single arm hypothesis test.
 p0 <- 0.5; p1 <- 0.7
 
 # Critical values
-c <- 0:30
+c <- 0:40
 # Type I error rates
-tI <- 1 - pbinom(c, 30, p0)
+tI <- 1 - pbinom(c, 40, p0)
 # Type II error rates
-tII <- pbinom(c, 30, p1)
+tII <- pbinom(c, 40, p1)
 
 plot(tI[13:21], tII[13:21])
 data.frame(c=c, tI=tI, tII=tII)
 ```
 
 So, for example, we get a type I error rate of 0.100 and a type II of 0.159 if our rule is to stop when we have 18 or fewer adherences, and proceed if we have 19 or more. Note that this corresponds to proportions of 0.6 and 0.63. 
+
+For an alpha 0.05 and beta 0.1:
+```{r}
+n <- 53; c <- 32; 1 - pbinom(c, n, p0); pbinom(c, n, p1)
+```
 
 ### Three outcome test (i)
 
@@ -100,12 +105,14 @@ Considering a maximum sample size of 100, we can now look at all possible sample
 rules <- expand.grid(r1 = 0:100, r2 = 0:100)
 rules <- rules[rules$r2 >= rules$r1,]
 
-cons <- c(0.025, 0.2, 0.1, 0.1)
+cons <- c(0.05, 0.1, 0.1, 0.1)
 df <- data.frame(n=0:100)
 df <- cbind(df, t(sapply(df$n, f, cons=cons, p0=p0, p1=p1, rules=rules)))
 df$v <- df$V1 < 100
 df$V1 <- df$V1 - 100*(!df$v)
 
+# v1 is the sum of all error rates
+# v flags if all error rate are above nominal level
 ggplot(df, aes(n, V1, colour=v)) + geom_point()
 
 df[df$v,][1,]
@@ -116,7 +123,7 @@ The optimal design has a sample size of 42. It will mandate a red decision if th
 Compare this against the optimal design when we constrain to $(\lambda, \delta) = (0, 0)$:
 
 ```{r}
-cons <- c(0.025, 0.2, 0.0, 0.0)
+cons <- c(0.05, 0.1, 0.0, 0.0)
 df <- data.frame(n=0:100)
 df <- cbind(df, t(sapply(df$n, f, cons=cons, p0=p0, p1=p1, rules=rules)))
 df$v <- df$V1 < 100
@@ -127,7 +134,7 @@ ggplot(df, aes(n, V1, colour=v)) + geom_point()
 df[df$v,][1,]
 ```
 
-The optimal sample size has increased to 49. As we would expect, the two cutoffs in the decision rule coincide. We now make a red decision if we see 31 or fewer adherers, and otherwise make a green decision. The actual error rates are $(\alpha, \beta, \lambda, \delta) = (0.022, 0.19, 0, 0)$.	
+The optimal sample size has increased to 53. As we would expect, the two cutoffs in the decision rule coincide. We now make a red decision if we see 31 or fewer adherers, and otherwise make a green decision. The actual error rates are $(\alpha, \beta, \lambda, \delta) = (0.049, 0.086, 0, 0)$.	This is the same optimal design as in the two outcome case.
 
 We might be tempted by the design which reduces the sample size by 7 at the cost of a 0.022 prob of getting an inconclusive result under the null, and a 0.09 prob of an inconclusive result under the alternative. Is this worth it? We need to understand the impact of these errors to make this judgement. We might reasonably doubt our ability to effectively balance the costs of these errors against the usual $\alpha$ and $\beta$ and the sample size, given that this is rarely done in the usual two outcome case (where we stick to default nominal values and find the smallest $n$ that satisfies). Below we consider an alternative formulation which replaces the error rates $\lambda$ and $\delta$, which are to be _chosen_, with two probabilities, which can be _estimated_.
 
@@ -167,7 +174,7 @@ f2 <- function(n, cons, p0, p1, rules, rho)
 For example, how would the optimal design change if we have $rho = 0.8$?
 
 ```{r}
-cons <- c(0.025, 0.2, 0.1, 0.1)
+cons <- c(0.05, 0.1, 0.1, 0.1)
 df <- data.frame(n=0:100)
 df <- cbind(df, t(sapply(df$n, f2, cons=cons, p0=p0, p1=p1, rules=rules, rho=0.5)))
 df$v <- df$V1 < 100
@@ -178,9 +185,23 @@ ggplot(df, aes(n, V1, colour=v)) + geom_point()
 df[df$v,][1,]
 ```
 
-As expected, we need to increase the sample size from 42 to 45 in order to allow for the imperfect decision making following an intermediate outcome. We can also see that if $\rho = 0.5$, which is to say that the stop/go decision following an intermediate outcome is a complete guess, then the optimal three-outcome design reduces to the usual two-outcome design. So, we see that the supposed efficiency of a three outcome design (in Sargents paper they note it provides a way to obtain more managable sample sizes than the two-outcome design) is actually contingent on an ability to make good decisions following an intermediate result.
+As expected, we need to increase the sample size from 42 to 47 in order to allow for the imperfect decision making following an intermediate outcome. We can also see that if $\rho = 0.5$, which is to say that the stop/go decision following an intermediate outcome is a complete guess, then the optimal three-outcome design reduces to the usual two-outcome design. So, we see that the supposed efficiency of a three outcome design (in Sargents paper they note it provides a way to obtain more managable sample sizes than the two-outcome design) is actually contingent on an ability to make good decisions following an intermediate result.
 
 Note that we have included the same constraints on $\lamda$ and $\delta$ as before. We could argue that, having revised the definitions of type I and II errors, these "errors" are no longer of much interest. In this case, we can use the emthod as is but setting constraints of 1. Alternatively, it may be that we do want to limit these probabilities of incorectly getting an intermediate outcome - perhaps if the process of looking at the rest of the data is costly and we would like to avoid it if necessary. 
+Plot sample size as a function of $\rho$:
+```{r}
+get_n <- function(rho)
+{
+  cons <- c(0.05, 0.1, 1, 1)
+  df <- data.frame(n=0:100)
+  df <- cbind(df, t(sapply(df$n, f2, cons=cons, p0=p0, p1=p1, rules=rules, rho=0.5)))
+
+  df[df$v,][1,1]
+}
+
+df <- data.frame(rho = seq(0.5, 1, 0.01))
+```
+
 
 In our pilot trial context, does this corrected three-outcome design make sense? Does it adress any of the motivations?
 
@@ -213,6 +234,8 @@ iv) we find that it needs to be corrected and show how to do so
 v) we find that the corrected design is no help for the first issue (efficiency)
 vi) we show that it may be useful for the second issue (many endpoints), but will typically need a larger sample and is dificult to operationalise in practice
 vii) we show that it, and pre-specified frequentist tests in geenral, are not suitable for the third issue (making modifications).
+
+
 
 
 

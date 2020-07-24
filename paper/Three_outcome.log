@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.19 (MiKTeX 2.9.6840 64-bit) (preloaded format=pdflatex 2019.3.21)  21 APR 2020 08:13
+This is pdfTeX, Version 3.14159265-2.6-1.40.19 (MiKTeX 2.9.6840 64-bit) (preloaded format=pdflatex 2019.3.21)  24 JUL 2020 13:57
 entering extended mode
 **./Three_outcome.tex
 (Three_outcome.tex
@@ -275,21 +275,21 @@ Package: multirow 2018/08/03 v2.3 Span multiple rows of a table
 \Urlmuskip=\muskip11
 Package: url 2013/09/16  ver 3.4  Verb mode for urls, etc.
 )
-No file Three_outcome.aux.
+(Three_outcome.aux)
 \openout1 = `Three_outcome.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 16.
-LaTeX Font Info:    ... okay on input line 16.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 16.
-LaTeX Font Info:    ... okay on input line 16.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 16.
-LaTeX Font Info:    ... okay on input line 16.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 16.
-LaTeX Font Info:    ... okay on input line 16.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 16.
-LaTeX Font Info:    ... okay on input line 16.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 16.
-LaTeX Font Info:    ... okay on input line 16.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 18.
+LaTeX Font Info:    ... okay on input line 18.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 18.
+LaTeX Font Info:    ... okay on input line 18.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 18.
+LaTeX Font Info:    ... okay on input line 18.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 18.
+LaTeX Font Info:    ... okay on input line 18.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 18.
+LaTeX Font Info:    ... okay on input line 18.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 18.
+LaTeX Font Info:    ... okay on input line 18.
 
 (C:\Users\meddwilb\AppData\Roaming\MiKTeX\2.9\tex\context\base\mkii\supp-pdf.mk
 ii
@@ -391,47 +391,88 @@ G,.JBIG2,.JB2,.eps]
 
 Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: End \AtBeginDocument code.
-LaTeX Font Info:    Try loading font information for U+lasy on input line 35.
+LaTeX Font Info:    Try loading font information for U+lasy on input line 37.
 ("C:\Program Files\MiKTeX 2.9\tex\latex\base\ulasy.fd"
 File: ulasy.fd 1998/08/17 v2.2e LaTeX symbol font definitions
 )
-LaTeX Font Info:    Try loading font information for U+msa on input line 35.
+LaTeX Font Info:    Try loading font information for U+msa on input line 37.
 
 ("C:\Program Files\MiKTeX 2.9\tex\latex\amsfonts\umsa.fd"
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Try loading font information for U+msb on input line 35.
+LaTeX Font Info:    Try loading font information for U+msb on input line 37.
 
 ("C:\Program Files\MiKTeX 2.9\tex\latex\amsfonts\umsb.fd"
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
 LaTeX Font Warning: Font shape `OT1/cmss/m/n' in size <18> not available
-(Font)              size <17.28> substituted on input line 39.
+(Font)              size <17.28> substituted on input line 41.
 LaTeX Font Warning: Font shape `OT1/cmss/bx/n' in size <18> not available
-(Font)              size <17.28> substituted on input line 39.
+(Font)              size <17.28> substituted on input line 41.
 
 
-LaTeX Warning: Reference `FirstPage' on page 1 undefined on input line 39.
+LaTeX Warning: Reference `FirstPage' on page 1 undefined on input line 41.
 
 
-LaTeX Warning: Reference `LastPage' on page 1 undefined on input line 39.
+LaTeX Warning: Reference `LastPage' on page 1 undefined on input line 41.
 
-LaTeX Font Info:    Try loading font information for OMS+cmss on input line 39.
+LaTeX Font Info:    Try loading font information for OMS+cmss on input line 41.
 
-LaTeX Font Info:    No file OMScmss.fd. on input line 39.
+LaTeX Font Info:    No file OMScmss.fd. on input line 41.
 LaTeX Font Warning: Font shape `OMS/cmss/m/n' undefined
-(Font)              using `OMS/cmsy/m/n' instead on input line 39.
-LaTeX Font Warning: Font shape `OT1/cmss/m/it' in size <12> not available
-(Font)              Font shape `OT1/cmss/m/sl' tried instead on input line 51.
-LaTeX Font Warning: Font shape `OT1/cmss/m/it' in size <10> not available
-(Font)              Font shape `OT1/cmss/m/sl' tried instead on input line 51.
-No file Three_outcome.bbl.
+(Font)              using `OMS/cmsy/m/n' instead on input line 41.
 LaTeX Font Warning: Font shape `OT1/cmss/m/it' in size <7> not available
-(Font)              Font shape `OT1/cmss/m/sl' tried instead on input line 68.
+(Font)              Font shape `OT1/cmss/m/sl' tried instead on input line 50.
 [1
 
 {C:/Users/meddwilb/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map}]
-(Three_outcome.aux)
+LaTeX Font Warning: Font shape `OT1/cmss/m/it' in size <10> not available
+(Font)              Font shape `OT1/cmss/m/sl' tried instead on input line 67.
+
+[2]
+
+LaTeX Warning: Reference `sec:tests' on page 3 undefined on input line 72.
+
+
+Package natbib Warning: Citation `Sargent2001' on page 3 undefined on input lin
+e 72.
+
+
+LaTeX Warning: Reference `sec:introduction' on page 3 undefined on input line 8
+1.
+
+LaTeX Font Warning: Font shape `OT1/cmss/m/it' in size <12> not available
+(Font)              Font shape `OT1/cmss/m/sl' tried instead on input line 83.
+
+Package natbib Warning: Citation `Hong2007' on page 3 undefined on input line 8
+5.
+
+
+Package natbib Warning: Citation `Sargent2001' on page 3 undefined on input lin
+e 87.
+
+[3]
+
+LaTeX Warning: Reference `fig:' on page 4 undefined on input line 102.
+
+
+Package natbib Warning: Citation `Sargent2001' on page 4 undefined on input lin
+e 104.
+
+
+Package natbib Warning: Citation `Hampson2017' on page 4 undefined on input lin
+e 112.
+
+
+Package natbib Warning: Citation `Avery2017' on page 4 undefined on input line 
+112.
+
+[4]
+No file Three_outcome.bbl.
+
+Package natbib Warning: There were undefined citations.
+
+[5] (Three_outcome.aux)
 LaTeX Font Warning: Size substitutions with differences
 (Font)              up to 0.72pt have occurred.
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
@@ -444,24 +485,31 @@ LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
 
  ) 
 Here is how much of TeX's memory you used:
- 5010 strings out of 492970
- 72188 string characters out of 3135846
- 147419 words of memory out of 3000000
- 8767 multiletter control sequences out of 15000+200000
- 16232 words of font info for 64 fonts, out of 3000000 for 9000
+ 5019 strings out of 492970
+ 72368 string characters out of 3135846
+ 151419 words of memory out of 3000000
+ 8772 multiletter control sequences out of 15000+200000
+ 16886 words of font info for 66 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
- 43i,8n,40p,282b,274s stack positions out of 5000i,500n,10000p,200000b,50000s
-<C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx7.pfb><C:/Pro
-gram Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr9.pfb><C:/Program Files
-/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmss10.pfb><C:/Program Files/MiKTeX 
-2.9/fonts/type1/public/amsfonts/cm/cmss8.pfb><C:/Program Files/MiKTeX 2.9/fonts
-/type1/public/amsfonts/cm/cmssbx10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1
-/public/amsfonts/cm/cmssi8.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/
-amsfonts/cm/cmsy7.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/
-cm/cmti7.pfb>
-Output written on Three_outcome.pdf (1 page, 92681 bytes).
+ 43i,10n,40p,1355b,274s stack positions out of 5000i,500n,10000p,200000b,50000s
+<C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx10.pfb><C:/Pr
+ogram Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx7.pfb><C:/Program Fil
+es/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Program Files/MiKTe
+X 2.9/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Program Files/MiKTeX 2.9/fon
+ts/type1/public/amsfonts/cm/cmr7.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/p
+ublic/amsfonts/cm/cmr9.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsf
+onts/cm/cmss10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/
+cmss8.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmssbx10.
+pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmssi10.pfb><C:
+/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmssi12.pfb><C:/Progra
+m Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmssi8.pfb><C:/Program Files/
+MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Program Files/MiKTeX 2
+.9/fonts/type1/public/amsfonts/cm/cmsy7.pfb><C:/Program Files/MiKTeX 2.9/fonts/
+type1/public/amsfonts/cm/cmti10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/pu
+blic/amsfonts/cm/cmti7.pfb>
+Output written on Three_outcome.pdf (5 pages, 201361 bytes).
 PDF statistics:
- 38 PDF objects out of 1000 (max. 8388607)
+ 82 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
  1 words of extra memory for PDF output out of 10000 (max. 10000000)
 
