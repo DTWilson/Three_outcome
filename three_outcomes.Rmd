@@ -11,6 +11,17 @@ knitr::opts_chunk$set(echo = TRUE)
 require(ggplot2)
 ```
 
+## Figures
+
+Power curves for illustration, i) for fixed alpha and beta, and ii) for fixed critical value.
+```{r}
+n <- 30
+p <- 0.6
+df <- data.frame(rho = seq(0, 1, 0.01))
+
+df$p <- sapply(df$rho, function(x) power.t.test)
+```
+
 ## Introduction
 
 Problem - choosing traffic light style progression criteria. Simplest case - one endpoint, e.g. recruitment rate.

@@ -1,0 +1,113 @@
+\begin{thebibliography}{10}
+\providecommand{\url}[1]{\texttt{#1}}
+\providecommand{\urlprefix}{URL }
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{DOI:\discretionary{}{}{}#1}\else
+  \providecommand{\doi}{DOI:\discretionary{}{}{}\begingroup
+  \urlstyle{rm}\Url}\fi
+\providecommand{\eprint}[2][]{\url{#2}}
+
+\bibitem{Browne1995}
+Browne RH.
+\newblock On the use of a pilot sample for sample size determination.
+\newblock \emph{Statistics in Medicine} 1995; 14(17): 1933--1940.
+\newblock \doi{10.1002/sim.4780141709}.
+\newblock \urlprefix\url{http://dx.doi.org/10.1002/sim.4780141709}.
+
+\bibitem{Teare2014}
+Teare M, Dimairo M, Shephard N et~al.
+\newblock Sample size requirements to estimate key design parameters from
+  external pilot randomised controlled trials: a simulation study.
+\newblock \emph{Trials} 2014; 15(1): 264.
+\newblock \doi{10.1186/1745-6215-15-264}.
+\newblock \urlprefix\url{http://www.trialsjournal.com/content/15/1/264}.
+
+\bibitem{Whitehead2015}
+Whitehead AL, Julious SA, Cooper CL et~al.
+\newblock Estimating the sample size for a pilot randomised trial to minimise
+  the overall trial sample size for the external pilot and main trial for a
+  continuous outcome variable.
+\newblock \emph{Statistical Methods in Medical Research} 2015;
+  \doi{10.1177/0962280215588241}.
+\newblock
+  \urlprefix\url{http://smm.sagepub.com/content/early/2015/06/27/0962280215588241.abstract}.
+\newblock
+  \eprint{http://smm.sagepub.com/content/early/2015/06/27/0962280215588241.full.pdf+html}.
+
+\bibitem{Fleming1982}
+Fleming TR.
+\newblock One-sample multiple testing procedure for phase {II} clinical trials.
+\newblock \emph{Biometrics} 1982; 38(1): 143--151.
+\newblock \urlprefix\url{http://www.jstor.org/stable/2530297}.
+
+\bibitem{Emerson1987}
+Emerson JD and Tritchler D.
+\newblock The three-decision problem in medical decision making.
+\newblock \emph{Statistics in Medicine} 1987; 6(2): 101--112.
+\newblock \doi{10.1002/sim.4780060202}.
+\newblock
+  \urlprefix\url{https://onlinelibrary.wiley.com/doi/abs/10.1002/sim.4780060202}.
+\newblock
+  \eprint{https://onlinelibrary.wiley.com/doi/pdf/10.1002/sim.4780060202}.
+
+\bibitem{Storer1992}
+Storer BE.
+\newblock A class of phase ii designs with three possible outcomes.
+\newblock \emph{Biometrics} 1992; 48(1): 55--60.
+\newblock \urlprefix\url{http://www.jstor.org/stable/2532738}.
+
+\bibitem{Hong2007}
+Hong S and Wang Y.
+\newblock A three-outcome design for randomized comparative phase {II} clinical
+  trials.
+\newblock \emph{Statist Med} 2007; 26(19): 3525--3534.
+\newblock \doi{10.1002/sim.2824}.
+\newblock \urlprefix\url{http://dx.doi.org/10.1002/sim.2824}.
+
+\bibitem{Brown2012}
+Brown MJ, Chuang-Stein C and Kirby S.
+\newblock Designing studies to find early signals of efficacy.
+\newblock \emph{Journal of Biopharmaceutical Statistics} 2012; 22(6):
+  1097--1108.
+\newblock \doi{10.1080/10543406.2011.570466}.
+\newblock \urlprefix\url{https://doi.org/10.1080/10543406.2011.570466}.
+\newblock PMID: 23075010,
+  \eprint{https://doi.org/10.1080/10543406.2011.570466}.
+
+\bibitem{Kirby2016}
+Kirby S and Chuang-Stein C.
+\newblock A comparison of five approaches to decision-making for a first
+  clinical trial of efficacy.
+\newblock \emph{Pharmaceutical Statistics} 2016; 16(1): 37--44.
+\newblock \doi{10.1002/pst.1775}.
+\newblock
+  \urlprefix\url{https://onlinelibrary.wiley.com/doi/abs/10.1002/pst.1775}.
+\newblock \eprint{https://onlinelibrary.wiley.com/doi/pdf/10.1002/pst.1775}.
+
+\bibitem{Sargent2001}
+Sargent DJ, Chan V and Goldberg RM.
+\newblock A three-outcome design for phase {II} clinical trials.
+\newblock \emph{Controlled Clinical Trials} 2001; 22(2): 117 -- 125.
+\newblock \doi{http://dx.doi.org/10.1016/S0197-2456(00)00115-X}.
+\newblock
+  \urlprefix\url{http://www.sciencedirect.com/science/article/pii/S019724560000115X}.
+
+\bibitem{Hampson2017}
+Hampson LV, Williamson PR, Wilby MJ et~al.
+\newblock A framework for prospectively defining progression rules for internal
+  pilot studies monitoring recruitment.
+\newblock \emph{Statistical Methods in Medical Research} 2017; 0(0):
+  0962280217708906.
+\newblock \doi{10.1177/0962280217708906}.
+\newblock \urlprefix\url{http://dx.doi.org/10.1177/0962280217708906}.
+\newblock PMID: 28589752, \eprint{http://dx.doi.org/10.1177/0962280217708906}.
+
+\bibitem{Avery2017}
+Avery KNL, Williamson PR, Gamble C et~al.
+\newblock Informing efficient randomised controlled trials: exploration of
+  challenges in developing progression criteria for internal pilot studies.
+\newblock \emph{{BMJ} Open} 2017; 7(2): e013537.
+\newblock \doi{10.1136/bmjopen-2016-013537}.
+\newblock \urlprefix\url{https://doi.org/10.1136%2Fbmjopen-2016-013537}.
+
+\end{thebibliography}
