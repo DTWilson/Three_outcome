@@ -7,6 +7,22 @@
   \urlstyle{rm}\Url}\fi
 \providecommand{\eprint}[2][]{\url{#2}}
 
+\bibitem{Eldridge2016a}
+Eldridge SM, Chan CL, Campbell MJ et~al.
+\newblock {CONSORT} 2010~{s}tatement: extension to randomised pilot and
+  feasibility trials.
+\newblock \emph{{BMJ}} 2016; : i5239\doi{10.1136/bmj.i5239}.
+\newblock \urlprefix\url{http://dx.doi.org/10.1136/bmj.i5239}.
+
+\bibitem{}
+S G and AP D.
+\newblock Defining and identifying the effect of treatment on the treated.
+\newblock In Illari P, Russo F and Williamson J (eds.) \emph{Causality in the
+  Sciences}. Oxford Univ. Pre, 2011.
+\newblock pp. 728 -- 49.
+\newblock
+  \urlprefix\url{http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.370.9724&rep=rep1&type=pdf}.
+
 \bibitem{Browne1995}
 Browne RH.
 \newblock On the use of a pilot sample for sample size determination.
@@ -40,6 +56,29 @@ Fleming TR.
 \newblock \emph{Biometrics} 1982; 38(1): 143--151.
 \newblock \urlprefix\url{http://www.jstor.org/stable/2530297}.
 
+\bibitem{Shuster2002}
+Shuster J.
+\newblock Optimal two-stage designs for single arm phase ii cancer trials.
+\newblock \emph{Journal of Biopharmaceutical Statistics} 2002; 12(1): 39--51.
+
+\bibitem{Simon1989}
+Simon R.
+\newblock Optimal two-stage designs for phase {II} clinical trials.
+\newblock \emph{Controlled Clinical Trials} 1989; 10(1): 1 -- 10.
+\newblock \doi{http://dx.doi.org/10.1016/0197-2456(89)90015-9}.
+\newblock
+  \urlprefix\url{http://www.sciencedirect.com/science/article/pii/0197245689900159}.
+
+\bibitem{Brown2012}
+Brown MJ, Chuang-Stein C and Kirby S.
+\newblock Designing studies to find early signals of efficacy.
+\newblock \emph{Journal of Biopharmaceutical Statistics} 2012; 22(6):
+  1097--1108.
+\newblock \doi{10.1080/10543406.2011.570466}.
+\newblock \urlprefix\url{https://doi.org/10.1080/10543406.2011.570466}.
+\newblock PMID: 23075010,
+  \eprint{https://doi.org/10.1080/10543406.2011.570466}.
+
 \bibitem{Emerson1987}
 Emerson JD and Tritchler D.
 \newblock The three-decision problem in medical decision making.
@@ -63,16 +102,6 @@ Hong S and Wang Y.
 \newblock \emph{Statist Med} 2007; 26(19): 3525--3534.
 \newblock \doi{10.1002/sim.2824}.
 \newblock \urlprefix\url{http://dx.doi.org/10.1002/sim.2824}.
-
-\bibitem{Brown2012}
-Brown MJ, Chuang-Stein C and Kirby S.
-\newblock Designing studies to find early signals of efficacy.
-\newblock \emph{Journal of Biopharmaceutical Statistics} 2012; 22(6):
-  1097--1108.
-\newblock \doi{10.1080/10543406.2011.570466}.
-\newblock \urlprefix\url{https://doi.org/10.1080/10543406.2011.570466}.
-\newblock PMID: 23075010,
-  \eprint{https://doi.org/10.1080/10543406.2011.570466}.
 
 \bibitem{Kirby2016}
 Kirby S and Chuang-Stein C.
