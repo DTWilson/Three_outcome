@@ -1,6 +1,6 @@
 %\documentclass{article} %[twocolumn] 
 %\documentclass[Crown, times, sagev]{sagej}
-\documentclass[sagev, Crown]{sagej} %
+\documentclass[sagev]{sagej} %
 
 \usepackage{booktabs}
 \usepackage{array}
@@ -56,7 +56,7 @@ A second motivation is to allow other information to inform the progression deci
 
 A final reason for an intermediate outcome is to provide the flexibility needed to make some adjustment to the intervention or trial design in an attempt to improve the parameter in question and ensure the feasibility of the main trial. For example, after observing a mediocre follow-up rate in a pilot trial, we might consider moving from a postal follow-up strategy to one based on contacting the participants over the phone. This is perhaps the most prevalent reasoning given for three outcomes in pilot trials, with the intermediate `amber' decision often explicitly referred to as `amend' or `adjust' (examples).
 
-Although prevalent, there is little methodological guidance to help researchers decide what threshold values to use in their progression criteria. The related question of pilot trial sample size is also methodologically undeveloped, with work in this area almost exclusively focussing on pilots whose primary function is to estimate the primary outcome variance to inform the main trial sample size calculation. These methods nevertheless are used when this is not the primary aim of the pilot, often in the form of simple `rules-of-thumb' \cite{Browne1995} \cite{Teare2014} \cite{Whitehead2015}. There are a number of papers, however, which propose designs for trials with three outcomes. Although typically proposed for phase II trials of cancer treatments, these three-outcome designs were motivated by the same factors given above, and so may provide a useful framework for the pilot trial setting.
+Although prevalent, there is little methodological guidance to help researchers decide what threshold values to use in their progression criteria. The related question of pilot trial sample size is also methodologically undeveloped, with work in this area almost exclusively focussing on pilots whose primary function is to estimate the primary outcome variance to inform the main trial sample size calculation. These methods nevertheless are used when this is not the primary aim of the pilot, often in the form of simple `rules-of-thumb' \cite{Browne1995, Teare2014, Whitehead2015}. There are a number of papers, however, which propose designs for trials with three outcomes. Although typically proposed for phase II trials of cancer treatments, these three-outcome designs were motivated by the same factors given above, and so may provide a useful framework for the pilot trial setting.
 
 In this paper we consider if, and how, three-outcome designs can be used to determine optimal pilot progression criteria and sample size. We begin in Section \ref{sec:tests} by arguing that progression criteria are mathematically equivalent to hypothesis tests and best viewed as such. In Section \ref{sec:review} we review three-outcome trial designs. We examine their statistical properties as applied to the progression criteria problem, and consider whether or not they can help with any of the three motivating goals (addressing sampling variability, incorporating other information, or allowing for adjustments), in Section \ref{sec:methods}. We illustrate our arguments via an example in Section \ref{sec:illustrate}, before concluding with a discussion in Section \ref{sec:discussion}.
 
@@ -81,75 +81,101 @@ Alternatively, we can work backwards and take any given choice for $n$ and $x$ a
 
 If we suppose the null and alternatives hypotheses of interest are $\rho_0 = 0.6, \rho_1 = 0.8$ respectively, choosing $n = 15, x = 10/15$ gives error rates of $\alpha = 0.22$ and $1 - \beta = 0.84$. Alternatively, we can constrain the error rates to, for example, $\alpha^* = 0.05$ and $\beta^* = 0.1$, in which case the smallest possible sample size is $n = 48$ and the progression threshold is $x = 34/48$. The power curve for this design is plotted in Figure \ref{fig:power} for comparison. 
 
-%It may be that $p$ is typically chosen to be the point such that, if $A = p$, we would be indifferent between stopping and going on to the main trial. This would effectively fix the power curve at 0.5 for $\rho = p/n$. The choice of $n$ will then determine power for the rest of the parameter space. It would appear that calculating this power explicitly, either for the whole parameter space of for the specific points $\rho_0$ and $\rho_1$, could only help find an appropriate value for $n$.
-
 \section{Three-outcome clinical trial designs}\label{sec:review}
 
-Multiple testing procedures for phase II trials, which we can think of as a three outcome design at each stage where the middle outcome is "go to next stage and test again". So, quite different to our problem because we want to change the intervention and then possibly start over again \cite{Fleming1982}. Similarly, \cite{Shuster2002} is just a two stage design, similar to \cite{Simon1989}. 
+The two-outcome hypothesis test framework described in Section \ref{sec:tests} can be extended to three outcomes by using two critical values, $x_0$ and $x_1$, where we `stop' if $\hat{\rho} \leq x_0$ and `go' if $\hat{\rho} > x_1$. When the estimate falls $x_0 < \hat{\rho} \leq x_1$ we obtain an intermediate result, with a prescribed action that will depend on the specific context.
 
-Motivated by the fact that we can't have both a low sample size and low alpha and betas. Suggests a three outcome model where the decisions are stop / slow development / accelerated development, allowing two extra types of errors to be allowed and controlled. Seems to be equivalent to a two-stage design since the middle outcome is to `do another study' \cite{Brown2012}, but maybe more pertinent to our external pilot situation.
+In order to guide the choice of the thresholds $x_0, x_1$ and the sample size $n$, some operating characteristics have been proposed. One proposal \cite{Sargent2001} defines 
+\begin{equation}
+\begin{aligned}
+P[ \hat{\rho} > x_1 | \rho = \rho_0] & = \alpha, \\
+P[ \hat{\rho} \leq x_0 | \rho = \rho_1] & = \beta \\
+P[ x_0 < \hat{\rho} \leq x_1 | \rho = \rho_0] & = \lambda \\
+P[ x_0 < \hat{\rho} \leq x_1 | \rho = \rho_1] & = \delta.
+\end{aligned}
+\end{equation}\label{eqn:Sarg_ocs}
+Thus, $\alpha$ is the probability of making a `go' decision under the null hypothesis $\rho = \rho_0$, i.e. a type I error rate. Similarly, $\beta$ represents the usual type II error rate. The remaining operating characteristics, $\lambda$ and $\delta$, are the probabilities of obtaining an intermediate result under the null and alternative hypotheses respectively. These four operating characteristics are illustrated in Figure \ref{fig:Sarg_ocs}. The proposal is to set constraints on these four operating characteristics and choose $n, x_0, x_1$ to minimise $n$ whilst satisfying these constraints. 
 
-Decision-theoretic (non-Bayesian) approach, giving different costs to different types of error. Motivated by contrasting one and two sided tests, looking for a method which can tell us if there is a significant direction in either direction or if there is no difference \cite{Emerson1987}.
+\begin{figure}
+\centering
+\includegraphics[scale=0.8]{./figures/Sarg_ocs}
+\caption{Operating characteristics for Sargent \emph{et al.} \cite{Sargent2001} three-outcome design. The curves represents the sampling distribution of the estimate under different values of the parameter $\rho$.}
+\label{fig:Sarg_ocs}
+\end{figure}
 
-A Class of Phase II Designs with Three Possible Outcomes \cite{Storer1992}. They propose an OC conditional on being in the middle of the parameter space, where ideally we want to make the intermediate decision.
+An alternative three-outcome design \cite{Storer1992} uses the operating characteristics
+\begin{equation}
+\begin{aligned}
+P[ \hat{\rho} > x_0 | \rho = \rho_0] & = \alpha, \\
+P[ \hat{\rho} \leq x_` | \rho = \rho_1] & = \beta \\
+P[ \hat{\rho} \leq x_ 0| \rho = \rho_m] & = \gamma_L \\
+P[ x_1 < \hat{\rho} | \rho = \rho_m] & = \gamma_U.
+\end{aligned}
+\end{equation}\label{eqn:Stor_ocs}
+Note that the operating characteristics $\alpha$ and $\beta$ are different to those in (\ref{eqn:Sarg_ocs}), now being the probability of \emph{not stopping} under the null and \emph{not going} under the alternative. The operating characteristics $\gamma_L, \gamma_U$ are the probabilities of making 'stop' and 'go' decisions when the parameter takes a specific value $\rho_m$ between the null and alternative hypotheses, with the suggestion to set $\rho_m = (\rho_1 - \rho_0)/2$. Figure \ref{fig:Stor_ocs} illustrates the operating characteristics for this design.
 
-A three-outcome design for randomized comparative phase {II} clinical trials \cite{Hong2007}. This just extends Sargent to a randomised case.
+\begin{figure}
+\centering
+\includegraphics[scale=0.8]{./figures/Stor_ocs}
+\caption{Operating characteristics for Storer's \cite{Storer1992} three-outcome design. The curves represents the sampling distribution of the estimate under different values of the parameter $\rho$.}
+\label{fig:Stor_ocs}
+\end{figure}
 
-A review and comparison of early phase trial approaches \cite{Kirby2016}, including the three outcome design of \cite{Brown2012}.
-
-Although far less prevalent than the standard two-outcome hypothesis test described in Section \ref{sec:tests}, various designs for trials with three outcomes have been proposed.
-
-three outcome tests have been proposed. Following the same argument, we can show that a three-outcome progression criteria can be viewed as mathematically equivalent to a three-outcome design such as that described in \cite{Sargent2001}. This design specifies $n$ and two threshold, $p_0$ and $p_1$, and determines these based on four operating characteristics:
-\begin{align}
-P[ \hat{\rho} \geq p_1 | \rho = \rho_0] & = \alpha, \\
-P[ \hat{\rho} < p_0 | \rho = \rho_1] & = \beta \\
-P[ p_0 \leq \hat{\rho} < p_1 | \rho = \rho_0] & = \lambda \\
-P[ p_0 \leq \hat{\rho} < p_1 | \rho = \rho_1] & = \delta.
-\end{align}
-By setting upper limits on $\alpha, \beta, \eta$ and $\pi$, we can identify the optimal trial design $n, p_0, p_1$.
 
 \section{Three-outcome designs for progression criteria}\label{sec:methods}
 
-As noted in Section \ref{sec:introduction}, there are three motivations for using three-outcome progression criteria. In this section we discuss if the three-outcome framework of Section \ref{sec:} can be used to address these goals.
+As noted in Section \ref{sec:introduction}, adding a third outcome to pilot trial progression criteria has been motivated on grounds of i) improved (statistical) efficiency; ii) the need to incorporate other information into progression decisions; and iii) the ability to make modifications to the intervention or the trial design before commencing the main trial. In this section we discuss if the three-outcome design frameworks reviewed in Section \ref{sec:review} can be used to address these goals.
 
-\subsection{Addressing sampling variability}
+\subsection{Statistical efficiency}\label{sec:efficiency}
 
-use sargent here, since there and in extension they argue it reduces sample size.
+To explore the question of sampling variability, we will apply the framework of Sargent \emph{et al.} \cite{Sargent2001} which, it is claimed, will reduce the required sample size by allowing a region of uncertainty.
 
-For any given choice of nominal $\alpha$ and $\beta$, a three outcome design will have a lower required sample size providing the nominal $\lambda$ and/or $\delta$ are greater than 0. For example, take $\rho_0 = 0.5$ and $\rho_1 = 0.7$. A two outcome design will require $n = 53$ to ensure $\alpha \leq 0.05$ and $\beta \leq 0.1$. In contrast, by allowing $\lambda \leq 0.1$ and $\delta \leq 0.1$ in a three outcome design, we can obtain $\alpha \leq 0.05$ and $\beta \leq 0.1$ with only $n = 42$. This would suggest three outcome designs are indeed more efficient, as argued in \cite{Hong2007}. But this argument rests on a false equivalence, as we will show.
+For any given choice of nominal $\alpha$ and $\beta$, as defined in (\ref{eqn:Sarg_ocs}), an optimal three-outcome design will indeed have a lower sample size than a two-outcome design, providing $\lambda$ and/or $\delta$ are allowed to be greater than 0. For example, take $\rho_0 = 0.5$ and $\rho_1 = 0.7$. A two-outcome design will require $n = 53$ to ensure $\alpha \leq 0.05$ and $\beta \leq 0.1$. In contrast, by allowing $\lambda \leq 0.1$ and $\delta \leq 0.1$ in a three-outcome design, we can obtain $\alpha \leq 0.05$ and $\beta \leq 0.1$ with only $n = 42$. This would suggest three outcome designs are indeed more efficient \cite{Sargent2001, Hong2007}. But this argument rests on a false equivalence, as we will show.
 
-In \cite{Sargent2001} the authors state that ``We  can interpret $\alpha$  the usual  manner,  i.e., the  maximum probability of making an erroneous decision by rejecting the null hypothesis when in fact it is true''. To ``reject the null hypothesis'' here is to arrive at a `go' decision and proceed to the main trial. This decision, however, can be arrived at in two ways: directly, by obtaining $\hat{\rho} \geq p_1$; or indirectly, by first obtaining an intermediate result $p_0 \geq \hat{\rho} < p_1$ and then, after due consideration of whatever other information has been obtained in the pilot, deciding to proceed. Ultimately, we must always decide to either `stop' or 'go' to the main trial following an intermediate result in the pilot. Define
+In \cite{Sargent2001} the authors state that ``We  can interpret $\alpha$  the usual  manner,  i.e., the  maximum probability of making an erroneous decision by rejecting the null hypothesis when in fact it is true''. To ``reject the null hypothesis'' here is to arrive at a `go' decision and proceed to the main trial. This decision, however, can be arrived at in two ways: directly, by obtaining $\hat{\rho} > x_1$; or indirectly, by first obtaining an intermediate result $x_0 < \hat{\rho} < x_1$ and then deciding to proceed. Ultimately, we must always decide to either `stop' or 'go' to the main trial following an intermediate result in the pilot. Define
 \begin{align}
-\eta_0 &= P[\text{decide to `go'} | \rho = \rho_0, p_0 \geq \hat{\rho} < p_1] \\
-\eta_1 &= P[\text{decide to `stop'} | \rho = \rho_1, p_0 \geq \hat{\rho} < p_1],
+\eta_0 &= P[\text{decide to `go'} ~|~ \rho = \rho_0, x_0 < \hat{\rho} \leq x_1] \\
+\eta_1 &= P[\text{decide to `stop'} ~|~ \rho = \rho_1, x_0 < \hat{\rho} \leq x_1].
 \end{align}
-where e.g.  $\eta_0$ is the probability of making a 'go' decision following an intermediate result, when the true parameter value is $\rho_0$. The actual type I error rate, i.e. the probability of making a `go' decision when $\rho = \rho_0$, is
+For example, $\eta_0$ is the probability of making a 'go' decision following an intermediate result and when the true parameter value is $\rho_0$. The correct probability of making a `go' decision when $\rho = \rho_0$ (i.e., the type I error rate), then, is not $\alpha$ but
 $$
 \bar{\alpha} = \alpha + \eta_0 \lambda.
 $$
-Similarly, the actual type II error rate is
+Similarly, the correct type II error rate is
 $$
 \bar{\beta} = \beta + \eta_1 \delta.
 $$
-Under this reformulation of the three outcome design, we now estimate the probabilities $\eta_0, \eta_1$, set constraints on the actual type I and II error rates $\bar{\alpha}, \bar{\beta}$, and find the optimal design $n, p_0, p_1$. 
+Under this reformulation, an optimal three-outcome design can be found by first estimating the probabilities $\eta_0, \eta_1$, then setting constraints on the actual type I and II error rates $\bar{\alpha}, \bar{\beta}$, and finally searching for the values of  $n, x_0, x_1$ which minimise $n$ whilst satisfying the constraints. 
 
-For simplicity we will assume that $\eta_0 = \eta_1 = \eta$; that is, the probability of eventually making the wrong decision following an intermediate result is the same for $\rho = \rho_0$ as for $\rho = \rho_1$. Returning to our example where $\rho_0 = 0.5, \rho_1 = 0.7, \bar{\alpha} \leq 0.05$ and $\bar{\beta} \leq 0.1$, we plot the required sample size for $0 \leq \eta \leq 0.5$ in Figure \ref{fig:}. 
+For simplicity we will assume that $\eta_0 = \eta_1 = \eta$; that is, the probability of eventually making the wrong decision following an intermediate result is the same for $\rho = \rho_0$ as for $\rho = \rho_1$. Returning to our example where $\rho_0 = 0.5, \rho_1 = 0.7, \bar{\alpha} \leq 0.05$ and $\bar{\beta} \leq 0.1$, recall that the optimal two-outcome design had a sample size of $n = 53$. We plot the required sample size for $0 \leq \eta \leq 0.5$ in Figure \ref{fig:eta_ns}, which also illustrates the size of the intermediate zone $x_1 - x_0$ (dashed line).
 
-We see that when $\eta = 0.5$, in which case we can only guess at the correct decision following an intermediate result, the optimal sample size is $n = 53$ and the three outcome design reduces to the two outcome design. At the other extreme, if $\eta = 1$ and we can decide without error, the tree outcome design reduces to a trivial one outcome design where an intermediate result is always obtained, upon which the correct stop/go decision can be reached. We see that for the kinds of sample size reductions given in \cite{Sargent2001}, we require $\eta$ of around 0.2. That is, we need to have an 80\% chance of correctly deciding to stop when we get an intermediate decision and the true parameter value is $\rho = \rho_0$; and similarly for deciding to proceed when $\rho = \rho_1$. In the context of our example, it is hard to think of a reason why our judgements would be so reliable. The appropriate default would seem to be $\eta = 0.5$. Unless we can argue that $\eta << 0.5$, the supposed efficiency of a three outcome design is an illusion, and its use will therefore not achieve the goal of better handling the sampling variability of parameter estimates in pilot trials.
+\begin{figure}
+\centering
+\includegraphics[scale=0.8]{./figures/eta_ns}
+\caption{Minimum required sample size for a three-outcome design as a function of $\eta$ (solid line), along with the corresponding size of the intermediate zone $x_1 - x_0$ (dashed line).}
+\label{fig:eta_ns}
+\end{figure}
 
-\subsection{Incorporating other information}
+When $\eta = 0.5$, in which case we can only guess at the correct decision following an intermediate result, the optimal sample size is $n = 52$. We might have expected the three- and two-outcome designs to coincide at this point, and indeed this is the case if we employ a normal approximation for $\hat{\rho}$. When using exact binomial probabilities as we have done here, the optimal three-outcome design has $x_0 = 31, x_1 = 32$, in comparison to the $x = 32$ of the two-outcome design. This suggests the true optimal $x$ for a two-outcome design lies in the interval $(31, 32)$. We have not considered $\eta > 0.5$ here, since this represents a decision making ability worse than making a random choice and so the optimal design remains the usual two-outcome design.
 
-use storer here
+When $\eta = 1$, in which case we can make the correct decision with certainty whenever an intermediate result is obtained, the optimal three-outcome design is the trivial $n = 2, x_0 = 0, x_1 = 1$. Figure \ref{fig:eta_ns} shows that, for a 20\% reduction from the $n = 53$ two-sample design down to $n = 42$, we would require $\gamma = 0.2$. That is, we must be confident that 80\% of the times we get an intermediate result, but with a true $\rho = \rho_i (i = 0,1)$, we will make the correct progression decision. In the context of our simple example, it is hard to think of a reason why our judgements would be so reliable. In particular, the estimate $\hat{\rho}$ is a sufficient statistic for the parameter $\rho$, and so we cannot hpe to obtain any other information relevant to this particular judgement. The appropriate default would then seem to be $\eta = 0.5$\footnote{In fact, it is plausible that $\eta > 0.5$ if the final stop/go decision is influenced by other endpoints which are negatively correlated with the endpoint of interest. As noted already, the optimal design in such situations is the same as for $\eta = 0.5$.}, in which case the optimal three-outcome design will reduce to a two-outcome design. We can conclude that three-outcome progression criteria are not capable of improving statistical efficiency in pilot trials.
 
-A corrolary of the above analysis is that when $\eta = 0.5$ the optimal deign is a two outcome design, with no amber region. If we want to have an amber region to provide opportunity to use other information in the case of a borderline result, we can go about this in a number of ways. 
+\subsection{Incorporating other information}\label{sec:information}
 
-We could decide on a fixed width, and then design to minimise $n$ s.t. the constraints as above.
+Although three-outcome designs cannot improve statistical efficiency, they may be attractive as a way to allow other information to formally enter into the progression decision making process. This is the view which motivated Storer's three-outcome proposal \cite{Storer1992} as described in Section \ref{sec:review}, and so we will adopt their framework here. As in Section \ref{sec:efficiency}, we use the corrected type I and II error rates $\bar{\alpha}, \bar{\beta}$, but here we assume $\gamma = 0.5$. We then encourage the design to have an appropriate intermediate zone by constraining the operating characteristics $\gamma_L, \gamma_U$ defined in (\ref{eqn:Stor_ocs}), limiting the chance of making a conclusive `stop' or `go' decision when $rho = \rho_m$ and we would ideally like to bring other factors into play. With $\rho_0 = 0.5, \rho_1 - 0.7, \bar{\alpha} \leq 0.05$ and $\bar{\beta} \leq 0.1$ as before, we set $\rho_m = (\rho_1 - \rho_0)/2 = 0.6$ and find optimal designs for a range of $\gamma^*$, where $\gamma_L, \gamma_U \leq \gamma^*$. The sample size of these designs is plotted in Figure \ref{fig:gamma_ns}.
 
-We could allow the width to vary, but add another operating characteristic constraint, e.g. conditional on being midway between the null and alternative, we want a certain probability of making an amber decision. This is exaclty what was proposed in \cite{Storer1992}.
+\begin{figure}
+\centering
+\includegraphics[scale=0.8]{./figures/gamma_ns}
+\caption{Minimum required sample size for a three-outcome design as a function of $\gamma$ (solid line), along with the corresponding size of the intermediate zone $x_1 - x_0$ (dashed line).}
+\label{fig:gamma_ns}
+\end{figure}
 
-However we go about it, we know from the preceding section that to maintain the actual type I and II errors whilst introducing an amber region, we will have to \emph{increase} the sample size.
+When we set the constraint at $\gamma \leq 0.5$, no intermediate zone is required and so the optimal design, which minimises the required sample size, is the usual two-outcome design. As we decrease the nominal level on this constraint, we require a larger probability of obtaining an inconclusive result conditional on $\rho = \rho_m$. This leads to an increasing width of the intermediate zone alongside increasing sample size. The required increse in sample size beyond the two-outcome design can be substantial. For example, to ensure at least a 20\% chance of obtaining an intermediate result when $\rho = \rho_m$, we must increase the sample size from $n = 53$ to $n = 115$\footnote{This is lower than that required if we use the (incorrect) $\alpha$ and $\beta$ as given in (\ref{eqn:Stor_ocs}), since $\alpha \geq \bar{\alpha}$ and $\beta \geq \bar{\beta}$.}. Thus, providing the associated increase in sample size is considered worhtwhile, three-outcome designs could be used in pilot trials to ensure other information can be considered in the event of a `borderline' value in the parameter of interest, with some desired probability.
 
 \subsection{Allowing for adjustments}
+
+A final rationale for an intermediate outcome in pilot trials is to enable some modifications to be made prior to commencing the main trial. These could be adjustments to the trial design (e.g. to improve recruitment) or to the intervention itself (e.g. to improve adherence).
 
 An alternative rationale for allowing three outcomes in a pilot trial is to enable some kind of adjustments to the trial design or intervention to be made upon obtaining a `borderline' result in the pilot. Under this setup, an intermediate result leads to an eventual `go' decision, but only after making some modification(s). Under the assumption that such modifications are always successful, the type I and II error rates are as above. 
 
@@ -161,13 +187,24 @@ This only makes sense if we know what modifications will look like. In some case
 
 \section{Discussion}\label{sec:discussion}
 
-We began by highlighting that pilot progression criteria are mathematically equivalent to a hypothesis test, but not designed with respect to the corresponding error rates. This might be a sensible reaction to the hegemony of this particular method, which has many shortcomings. Nevertheless, if we are working in a frequentist framework then the power curve as a function of $\rho$ and $n$ must be useful information, even if we use it more sensibly than via rigid type I and II error rate constraints. Note in particular that if progression criteria thresholds indicate the \emph{parameter} value which we would consider on the border of stop/go, then this will lead to a test with 50\% power at this inflection point - and it has been argued elsewhere that this is sensible. The choice of sample size can then be made conditional on this, using some other criteria, which could be power at a another specific point.
+We began by highlighting that two-outcome pilot progression criteria are mathematically equivalent to a hypothesis test, but not designed with respect to the corresponding error rates. This might be a sensible reaction to the hegemony of this particular method, which has many shortcomings and expectations regarding arbitrary error nominal error rates. Nevertheless, if we are working in a frequentist framework then the power curve as a function of $\rho$ and $n$ must be useful information, even if we use it more sensibly than via rigid type I and II error rate constraints. Note in particular that if progression criteria thresholds indicate the \emph{parameter} value which we would consider on the border of stop/go, then this will lead to a test with 50\% power at this inflection point - and it has been argued elsewhere that this is sensible. The choice of sample size can then be made conditional on this, using some other criteria, which could be power at a another specific point.
 
 Pilot trial progression criteria are typically viewed as flexible guides to decision making, rather than cast-iron rules. This makes complete sense, and applies equally to the usual primary analysis tests where the p-value is not the last word in decision making. So, although we are not suggesting the rules are strictly followed, they can still be useful as a guide to decision making and choice of sample size.
 
 An alternative approach to SSD is to focus on precision, rather than testing. But this appears to be much harder to reason about - how much precision do we want? Perhaps this is something which will emerge from experience?
 
 Intermediate outcomes in pilots are never (?) used in an adaptive sense, i.e. where intermediate means collect more data. In contrast, this is the most common type of three outcome design in the drug trial literature, where many two-stage designs exist. An adaptive approach would help with objective 1 (efficiency), and could be used with a terminal intermediate outcome (in contrast to two stage designs which will have stop/go at the end to force a decision), using the above analysis to work out how much more sample size is needed to provide this flexibility. And indeed this aligns with \cite{Sargent2001}, who proposed one and two stage versions of their design. In the context of allowing modifications, we have the same problem of not being able to anticipate what they are or their effect. If we know what they are at least, an adaptive MAMS or factorial type approach evaluating several strategies and picking the winner - might be more efficient if data can be pulled for other parameters (e.g. if we have several recruitment strategies, but one follow-up, all arms can inform the follow-up estimate).
+
+
+Multiple testing procedures for phase II trials, which we can think of as a three outcome design at each stage where the middle outcome is "go to next stage and test again". So, quite different to our problem because we want to change the intervention and then possibly start over again \cite{Fleming1982}. Similarly, \cite{Shuster2002} is just a two stage design, similar to \cite{Simon1989}. 
+
+Motivated by the fact that we can't have both a low sample size and low alpha and betas. Suggests a three outcome model where the decisions are stop / slow development / accelerated development, allowing two extra types of errors to be allowed and controlled. Seems to be equivalent to a two-stage design since the middle outcome is to `do another study' \cite{Brown2012}, but maybe more pertinent to our external pilot situation.
+
+Decision-theoretic (non-Bayesian) approach, giving different costs to different types of error. Motivated by contrasting one and two sided tests, looking for a method which can tell us if there is a significant direction in either direction or if there is no difference \cite{Emerson1987}.
+
+A review and comparison of early phase trial approaches \cite{Kirby2016}, including the three outcome design of \cite{Brown2012}.
+
+A Bayesian adaptive approach, anticipating the effect of recruitment adjustments \cite{Hampson2017}.
 
 
 \begin{acks}

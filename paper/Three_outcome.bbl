@@ -50,6 +50,46 @@ Whitehead AL, Julious SA, Cooper CL et~al.
 \newblock
   \eprint{http://smm.sagepub.com/content/early/2015/06/27/0962280215588241.full.pdf+html}.
 
+\bibitem{Sargent2001}
+Sargent DJ, Chan V and Goldberg RM.
+\newblock A three-outcome design for phase {II} clinical trials.
+\newblock \emph{Controlled Clinical Trials} 2001; 22(2): 117 -- 125.
+\newblock \doi{http://dx.doi.org/10.1016/S0197-2456(00)00115-X}.
+\newblock
+  \urlprefix\url{http://www.sciencedirect.com/science/article/pii/S019724560000115X}.
+
+\bibitem{Hong2007}
+Hong S and Wang Y.
+\newblock A three-outcome design for randomized comparative phase {II} clinical
+  trials.
+\newblock \emph{Statist Med} 2007; 26(19): 3525--3534.
+\newblock \doi{10.1002/sim.2824}.
+\newblock \urlprefix\url{http://dx.doi.org/10.1002/sim.2824}.
+
+\bibitem{Storer1992}
+Storer BE.
+\newblock A class of phase ii designs with three possible outcomes.
+\newblock \emph{Biometrics} 1992; 48(1): 55--60.
+\newblock \urlprefix\url{http://www.jstor.org/stable/2532738}.
+
+\bibitem{Hampson2017}
+Hampson LV, Williamson PR, Wilby MJ et~al.
+\newblock A framework for prospectively defining progression rules for internal
+  pilot studies monitoring recruitment.
+\newblock \emph{Statistical Methods in Medical Research} 2017; 0(0):
+  0962280217708906.
+\newblock \doi{10.1177/0962280217708906}.
+\newblock \urlprefix\url{http://dx.doi.org/10.1177/0962280217708906}.
+\newblock PMID: 28589752, \eprint{http://dx.doi.org/10.1177/0962280217708906}.
+
+\bibitem{Avery2017}
+Avery KNL, Williamson PR, Gamble C et~al.
+\newblock Informing efficient randomised controlled trials: exploration of
+  challenges in developing progression criteria for internal pilot studies.
+\newblock \emph{{BMJ} Open} 2017; 7(2): e013537.
+\newblock \doi{10.1136/bmjopen-2016-013537}.
+\newblock \urlprefix\url{https://doi.org/10.1136%2Fbmjopen-2016-013537}.
+
 \bibitem{Fleming1982}
 Fleming TR.
 \newblock One-sample multiple testing procedure for phase {II} clinical trials.
@@ -89,20 +129,6 @@ Emerson JD and Tritchler D.
 \newblock
   \eprint{https://onlinelibrary.wiley.com/doi/pdf/10.1002/sim.4780060202}.
 
-\bibitem{Storer1992}
-Storer BE.
-\newblock A class of phase ii designs with three possible outcomes.
-\newblock \emph{Biometrics} 1992; 48(1): 55--60.
-\newblock \urlprefix\url{http://www.jstor.org/stable/2532738}.
-
-\bibitem{Hong2007}
-Hong S and Wang Y.
-\newblock A three-outcome design for randomized comparative phase {II} clinical
-  trials.
-\newblock \emph{Statist Med} 2007; 26(19): 3525--3534.
-\newblock \doi{10.1002/sim.2824}.
-\newblock \urlprefix\url{http://dx.doi.org/10.1002/sim.2824}.
-
 \bibitem{Kirby2016}
 Kirby S and Chuang-Stein C.
 \newblock A comparison of five approaches to decision-making for a first
@@ -112,31 +138,5 @@ Kirby S and Chuang-Stein C.
 \newblock
   \urlprefix\url{https://onlinelibrary.wiley.com/doi/abs/10.1002/pst.1775}.
 \newblock \eprint{https://onlinelibrary.wiley.com/doi/pdf/10.1002/pst.1775}.
-
-\bibitem{Sargent2001}
-Sargent DJ, Chan V and Goldberg RM.
-\newblock A three-outcome design for phase {II} clinical trials.
-\newblock \emph{Controlled Clinical Trials} 2001; 22(2): 117 -- 125.
-\newblock \doi{http://dx.doi.org/10.1016/S0197-2456(00)00115-X}.
-\newblock
-  \urlprefix\url{http://www.sciencedirect.com/science/article/pii/S019724560000115X}.
-
-\bibitem{Hampson2017}
-Hampson LV, Williamson PR, Wilby MJ et~al.
-\newblock A framework for prospectively defining progression rules for internal
-  pilot studies monitoring recruitment.
-\newblock \emph{Statistical Methods in Medical Research} 2017; 0(0):
-  0962280217708906.
-\newblock \doi{10.1177/0962280217708906}.
-\newblock \urlprefix\url{http://dx.doi.org/10.1177/0962280217708906}.
-\newblock PMID: 28589752, \eprint{http://dx.doi.org/10.1177/0962280217708906}.
-
-\bibitem{Avery2017}
-Avery KNL, Williamson PR, Gamble C et~al.
-\newblock Informing efficient randomised controlled trials: exploration of
-  challenges in developing progression criteria for internal pilot studies.
-\newblock \emph{{BMJ} Open} 2017; 7(2): e013537.
-\newblock \doi{10.1136/bmjopen-2016-013537}.
-\newblock \urlprefix\url{https://doi.org/10.1136%2Fbmjopen-2016-013537}.
 
 \end{thebibliography}
