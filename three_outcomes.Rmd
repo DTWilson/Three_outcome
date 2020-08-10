@@ -277,26 +277,31 @@ get_n <- function(tau, rho_0, rho_1, alpha_nom, beta_nom, max_n)
   
   # Calculate the error rates for each design
   df$alpha1 <- 1 - pbinom(df$x1, df$n, rho_0)
-  df$alpha2 <- pbinom(df$x1, df$n, rho_0 - tau) - pbinom(df$x0, df$n, rho_0 - tau)
+  df$alpha2 <- 1  - pbinom(df$x0, df$n, rho_0 - tau)
   df$beta1 <- pbinom(df$x0, df$n, rho_1 - tau)
   
   df <- df[df$alpha1 <= alpha_nom & df$alpha2 <= alpha_nom & df$beta <= beta_nom, ]
   opt <- which.min(df$n)
   #df[opt,]
-  c(df[opt, "n"], df[opt, "x1"] - df[opt, "x0"])
+  c(df[opt, "n"], df[opt, "x1"], df[opt, "x0"])
 }
 
-get_n(tau=0.05, rho_0, rho_1, alpha_nom, beta_nom, max_n = 100)
+get_n(tau=0, rho_0, rho_1, alpha_nom, beta_nom, max_n = 100)
 
-df <- data.frame(tau = seq(0.01, 0.2, 0.001))
-df <- cbind(df, t(sapply(df$tau, get_n, rho_0=rho_0, rho_1=rho_1, alpha_nom=alpha_nom, beta_nom=beta_nom, max_n=100)))
-names(df)[2:3] <- c("n", "dif")
+df <- data.frame(tau = seq(0, 0.5, 0.001))
+df <- cbind(df, t(sapply(df$tau, get_n, rho_0=rho_0, rho_1=rho_1, alpha_nom=alpha_nom, beta_nom=beta_nom, max_n=70)))
+names(df)[2:4] <- c("n", "x1", "x0")
+df$dif <- df$x1 - df$x0
 
 ggplot(df, aes(tau)) + geom_line(aes(y=n)) +
-  geom_line(aes(y = dif), linetype=2) + 
-  xlab("Maximum probability of incorrectly conclusive decision") +
+  geom_line(aes(y = x0), colour=cols[3]) + geom_line(aes(y = x1), colour=cols[4]) +
+  #geom_line(aes(y = dif), linetype=2) + 
+  xlab("Effect of adjustment") +
   ylab("Required sample size") +
   theme_minimal()
+
+ggsave("./paper/figures/tau_ns.pdf", height=9, width=14, units="cm")
+ggsave("./paper/figures/tau_ns.eps", height=9, width=14, units="cm", device = cairo_ps())
 ```
 
 ```{r}

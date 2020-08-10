@@ -58,6 +58,12 @@ Sargent DJ, Chan V and Goldberg RM.
 \newblock
   \urlprefix\url{http://www.sciencedirect.com/science/article/pii/S019724560000115X}.
 
+\bibitem{Storer1992}
+Storer BE.
+\newblock A class of phase ii designs with three possible outcomes.
+\newblock \emph{Biometrics} 1992; 48(1): 55--60.
+\newblock \urlprefix\url{http://www.jstor.org/stable/2532738}.
+
 \bibitem{Hong2007}
 Hong S and Wang Y.
 \newblock A three-outcome design for randomized comparative phase {II} clinical
@@ -65,12 +71,6 @@ Hong S and Wang Y.
 \newblock \emph{Statist Med} 2007; 26(19): 3525--3534.
 \newblock \doi{10.1002/sim.2824}.
 \newblock \urlprefix\url{http://dx.doi.org/10.1002/sim.2824}.
-
-\bibitem{Storer1992}
-Storer BE.
-\newblock A class of phase ii designs with three possible outcomes.
-\newblock \emph{Biometrics} 1992; 48(1): 55--60.
-\newblock \urlprefix\url{http://www.jstor.org/stable/2532738}.
 
 \bibitem{Hampson2017}
 Hampson LV, Williamson PR, Wilby MJ et~al.
@@ -138,5 +138,13 @@ Kirby S and Chuang-Stein C.
 \newblock
   \urlprefix\url{https://onlinelibrary.wiley.com/doi/abs/10.1002/pst.1775}.
 \newblock \eprint{https://onlinelibrary.wiley.com/doi/pdf/10.1002/pst.1775}.
+
+\bibitem{Mbuagbaw2019}
+Mbuagbaw L, Kosa SD, Lawson DO et~al.
+\newblock The reporting of progression criteria in protocols of pilot trials
+  designed to assess the feasibility of main trials is insufficient: a
+  meta-epidemiological study.
+\newblock \emph{Pilot and Feasibility Studies} 2019; 5(1).
+\newblock \doi{10.1186/s40814-019-0500-z}.
 
 \end{thebibliography}

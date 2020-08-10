@@ -1,6 +1,6 @@
 %\documentclass{article} %[twocolumn] 
-%\documentclass[Crown, times, sagev]{sagej}
-\documentclass[sagev]{sagej} %
+\documentclass[Crown, times, sagev]{sagej}
+%\documentclass[sagev]{sagej} %
 
 \usepackage{booktabs}
 \usepackage{array}
@@ -171,17 +171,46 @@ Although three-outcome designs cannot improve statistical efficiency, they may b
 \label{fig:gamma_ns}
 \end{figure}
 
-When we set the constraint at $\gamma \leq 0.5$, no intermediate zone is required and so the optimal design, which minimises the required sample size, is the usual two-outcome design. As we decrease the nominal level on this constraint, we require a larger probability of obtaining an inconclusive result conditional on $\rho = \rho_m$. This leads to an increasing width of the intermediate zone alongside increasing sample size. The required increse in sample size beyond the two-outcome design can be substantial. For example, to ensure at least a 20\% chance of obtaining an intermediate result when $\rho = \rho_m$, we must increase the sample size from $n = 53$ to $n = 115$\footnote{This is lower than that required if we use the (incorrect) $\alpha$ and $\beta$ as given in (\ref{eqn:Stor_ocs}), since $\alpha \geq \bar{\alpha}$ and $\beta \geq \bar{\beta}$.}. Thus, providing the associated increase in sample size is considered worhtwhile, three-outcome designs could be used in pilot trials to ensure other information can be considered in the event of a `borderline' value in the parameter of interest, with some desired probability.
+When we set the constraint at $\gamma \leq 0.5$, no intermediate zone is required and so the optimal design, which minimises the required sample size, is the usual two-outcome design. As we decrease the nominal level on this constraint, we require a larger probability of obtaining an inconclusive result conditional on $\rho = \rho_m$. This leads to an increasing width of the intermediate zone alongside increasing sample size. The required increse in sample size beyond the two-outcome design can be substantial. For example, to ensure at least a 20\% chance of obtaining an intermediate result when $\rho = \rho_m$, we must increase the sample size from $n = 53$ to $n = 115$\footnote{This is lower than that required if we use the (incorrect) $\alpha$ and $\beta$ as given in (\ref{eqn:Stor_ocs}), since $\alpha \geq \bar{\alpha}$ and $\beta \geq \bar{\beta}$.}. Thus, providing the associated increase in sample size is considered worthwhile, three-outcome designs could be used in pilot trials to ensure other information can be considered in the event of a `borderline' value in the parameter of interest, with some desired probability.
 
 \subsection{Allowing for adjustments}
 
 A final rationale for an intermediate outcome in pilot trials is to enable some modifications to be made prior to commencing the main trial. These could be adjustments to the trial design (e.g. to improve recruitment) or to the intervention itself (e.g. to improve adherence).
 
-An alternative rationale for allowing three outcomes in a pilot trial is to enable some kind of adjustments to the trial design or intervention to be made upon obtaining a `borderline' result in the pilot. Under this setup, an intermediate result leads to an eventual `go' decision, but only after making some modification(s). Under the assumption that such modifications are always successful, the type I and II error rates are as above. 
+\subsubsection{Known adjustment effect}
 
-We assume that a parameter in the amber region is salvageable, and will be salvaged if we get an amber decision. A red parameter is unsalvagable, regardless of the outcome. So, we could set up OCs: prob of infeasible trial = prob of a or g under R; prob of discarding intervention = prob of r under A or G, and of g under A; and prob of needless modification = prob of a under R or G. These are as in WP2. 
+When the nature of the anticipated adjustment is known \emph{a priori}, we denote its effect by $\tau$. For example, if the true unadjusted adherence rate is $\rho$ and an intermediate outcome $x_0 < \hat{\rho} \leq x_1$ is observed, the adjusted adherence rate in the main trial will be $\rho + \tau$. To define operating characteristics in this context, we need to clarify the meaning of type I and II errors:
+\begin{itemize}
+\item Type I error: proceeding to the main trial when $\rho < \rho_0$;
+\item Type II error: stopping when $\rho > \rho_1$, or preceding without adjustment when $\rho_1 - \tau < \rho < \rho_0$
+\end{itemize}
+That is, a type I error occurs when proceeding without adjustment when $\rho < \rho_0$, or when proceeding with adjustment when $\rho + \tau < \rho_0$. A type II error occurs when stopping when $\rho + \tau > \rho_1$, or when proceeding without adjustment when $\rho_1 - \tau < \rho < \rho_0$. Note that the latter condition is both a type I and II error, and is only possible if $\tau > \rho_1 = \rho_0$. 
 
-This only makes sense if we know what modifications will look like. In some cases this could feasibly apply. For example, we could consider improving recruitment by increasing the number of centres (although even here the size of the effect might be uncertain - see the Bayesian approach in \cite{Hampson2017}). But generally, the point of running the pilot is to identify issues which were not forseen. See the recruitment issue in \cite{Avery2017} - a staffing problem, which could be remidied and with a huge impact on recruitment rate, but where we would be guided into a stop decision becasue we did not allow for such a large modification effect. In the other direction, we might assume a large modification will be possible but not find any, landing us with a modify and go decision when we don't think this is sensible. In either case, we would ignore the pre-specified thresholds and use our judgement. But if this is the plan, why are we pre-specifying thresholds in the first place? If we are not certain about relying on our judgements, the best course of action may be to run another pilot with the changes made to check they are adequate. An adaptive design might make this process more efficient; or a factorial design trying lots of approaches at once and identifying the best to use in the main trial.
+In applying a three-outcome design in this setting, the operating characteristics in (\ref{eqn:Sarg_ocs}) and (\ref{eqn:Stor_ocs}) are not appropriate. We instead define type I and II error rates by
+\begin{equation}\label{eqn:adj_ocs}
+\begin{aligned}
+\max ~ (Pr[ \hat{\rho} > x_1 ~|~ \rho = \rho_0 ], Pr[ x_0 \leq \hat{\rho} ~|~ \rho = \rho_0 - \tau]) &= \alpha\\
+\max ~ (Pr[ \hat{\rho} \leq x_0 ~|~ \rho = \rho_1 - \tau ], Pr[ \hat{\rho} > x_1 ~|~ \rho = \rho_0, \tau > \rho_1 - \rho_0]) &= \beta.
+\end{aligned}
+\end{equation}
+Note that the second component of $\alpha$ is the probability of getting an intermediate result when the parameter value is so low that adjustment will still leave us in the null. We could consider using a specific constraint level for this, pulling it out as a different operating characteristic altogether. Also note that the second component of $\beta$ is equal to the first of $\alpha$. Thus, this will automatically be controlled whenever $\beta^* > \alpha^*$.
+
+Considering the same problem as before ($\rho_0 = 0.5, \rho_1 = 0.7, \alpha^* = 0.05, \beta^* = 0.1$) we found optimal designs for a range of known adjustment effects spanning $\tau \in [0, 0.5]$. The required sample size of these designs is illustrated in Figure \ref{fig:tau_ns}. When adjustments have no effect ($\tau = 0$), the optimal three-outcome design reduces to the usual stop/go two-outcome design, with $n = 53$ and $x_0 = x_1 = 32$. As $\tau$ increases, the required sample size initially increases with it before decreasing again. At the extreme of $\tau = 0.5$, in which case adjustment will lead to an empty set for the null hypothesis (since $\rho + \tau > \rho_0 = 0.5$, the optimal three-outcome design is to always arrive at an intermediate result and make the adjustment.
+
+\begin{figure}
+\centering
+\includegraphics[scale=0.8]{./figures/tau_ns}
+\caption{Minimum required sample size for a three-outcome design as a function of $\tau$ (solid line), along with the corresponding size of the intermediate zone $x_1 - x_0$ (dashed line).}
+\label{fig:tau_ns}
+\end{figure}
+
+\subsubsection{Unknown adjustment effect}
+
+Assuming the adjustment effect $\tau$ is known \emph{a priori} will not always be tenable. More generally, we may be able to impose some limits on it. For simplicity, we will assume here that the lower limit will always equal 0. We denote the upper limit by $\tau_{max}$.
+
+In this setting, error rates will not have to be maximised over $0 \leq \tau \leq \tau_{max}$. We see immediately from (\ref{eqn:adj_ocs}) that this will create problems, since the second term of $\alpha$ will be maximised at $\tau = 0$ while the first term of $\beta$ will be maximised at $\tau = \tau_{max}$.
+
+Intuitively, $\tau$ will determine where the critical values $x_0, x_1$ should be placed.
 
 \section{Illustration}\label{sec:illustrate}
 
@@ -195,6 +224,8 @@ An alternative approach to SSD is to focus on precision, rather than testing. Bu
 
 Intermediate outcomes in pilots are never (?) used in an adaptive sense, i.e. where intermediate means collect more data. In contrast, this is the most common type of three outcome design in the drug trial literature, where many two-stage designs exist. An adaptive approach would help with objective 1 (efficiency), and could be used with a terminal intermediate outcome (in contrast to two stage designs which will have stop/go at the end to force a decision), using the above analysis to work out how much more sample size is needed to provide this flexibility. And indeed this aligns with \cite{Sargent2001}, who proposed one and two stage versions of their design. In the context of allowing modifications, we have the same problem of not being able to anticipate what they are or their effect. If we know what they are at least, an adaptive MAMS or factorial type approach evaluating several strategies and picking the winner - might be more efficient if data can be pulled for other parameters (e.g. if we have several recruitment strategies, but one follow-up, all arms can inform the follow-up estimate).
 
+Assumption of known $\tau$. In some cases this could feasibly apply. For example, we could consider improving recruitment by increasing the number of centres (although even here the size of the effect might be uncertain - see the Bayesian approach in \cite{Hampson2017}). But generally, the point of running the pilot is to identify issues which were not foreseen. See the recruitment issue in \cite{Avery2017} - a staffing problem, which could be remedied and with a huge impact on recruitment rate, but where we would be guided into a stop decision because we did not allow for such a large modification effect. In the other direction, we might assume a large modification will be possible but not find any, landing us with a modify and go decision when we don't think this is sensible. In either case, we would ignore the pre-specified thresholds and use our judgement. But if this is the plan, why are we pre-specifying thresholds in the first place? If we are not certain about relying on our judgements, the best course of action may be to run another pilot with the changes made to check they are adequate. An adaptive design might make this process more efficient; or a factorial design trying lots of approaches at once and identifying the best to use in the main trial.
+
 
 Multiple testing procedures for phase II trials, which we can think of as a three outcome design at each stage where the middle outcome is "go to next stage and test again". So, quite different to our problem because we want to change the intervention and then possibly start over again \cite{Fleming1982}. Similarly, \cite{Shuster2002} is just a two stage design, similar to \cite{Simon1989}. 
 
@@ -205,6 +236,8 @@ Decision-theoretic (non-Bayesian) approach, giving different costs to different 
 A review and comparison of early phase trial approaches \cite{Kirby2016}, including the three outcome design of \cite{Brown2012}.
 
 A Bayesian adaptive approach, anticipating the effect of recruitment adjustments \cite{Hampson2017}.
+
+The reporting of progression criteria in protocols of pilot trials designed to assess the feasibility of main trials is insufficient: a meta-epidemiological study - \cite{Mbuagbaw2019}. ``While it is expected that these criteria be reported in the pilot study manuscript, it is also important that these progression criteria be pre-specified at the protocol stage. In fact, it is recommended that these progression criteria be agreed upon by the funders and investigators \cite{Avery2017}.''
 
 
 \begin{acks}
