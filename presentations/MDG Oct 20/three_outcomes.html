@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Three-outcome designs for pilot trials with progression criteria</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Duncan Wilson" />
+    <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
+    <link href="libs/remark-css-0.0.1/default-fonts.css" rel="stylesheet" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Three-outcome designs for pilot trials with progression criteria
+## Methedology Discussion Group
+### Duncan Wilson
+### 28/10/2020
+
+---
+
+
+# Progression criteria
+
+Model adherence as a binomial with sample size `\(n\)` and probability `\(\rho\)`.
+
+&lt;br&gt;
+
+Two-outcome PC: compare estimate `\(\hat{\rho}\)` against a threshold `\(x\)`:
+
+$$
+\text{Decision} = 
+`\begin{cases}
+go &amp; \text{ if } \hat{\rho} \geq x \\
+stop &amp; \text{ if } \hat{\rho} &lt; x. \\
+\end{cases}`
+$$
+
+&lt;br&gt;
+
+In the three-outcome case, we allow for an additional intermediate result and require two thresholds, `\(x_0\)` and `\(x_1\)`:
+
+$$
+\text{Decision} = 
+`\begin{cases}
+go &amp; \text{ if } \hat{\rho} \geq x_1 \\
+pause &amp; \text{ if } x_0 &lt; \hat{\rho} &lt; x_1 \\
+stop &amp; \text{ if } \hat{\rho} &lt; x_0. \\
+\end{cases}`
+$$
+
+---
+
+# Rationale
+
+**Efficiency**: by allowing an intermediate outcome, we will be less likely to make a 'hard' `\(stop\)` or `\(go\)` decision as a result of just bad luck.
+
+&lt;br&gt;
+
+**Using other information**: if we get an inconclusive result with respect to adherence, we want to look at other factors to decide if we should proceed.
+
+&lt;br&gt;
+
+**Making adjustments**: if adherence appears to be not great, but not terrible, we want to have the opportinity to adjust the intervention and/or the trial design to bring it up to an acceptable level.
+
+---
+
+# Hypothesis tests
+
+
+
+`\(\alpha =\)` Probability that `\(\hat{\rho} &gt;= x\)` (*go*) under the null, `\(\rho = \rho_0 = 0.5\)`
+
+`\(\beta =\)` Probability that `\(\hat{\rho} &lt; x\)` (*stop*) under the alternative, `\(\rho = \rho_1 = 0.7\)`
+
+&lt;img src="three_outcomes_files/figure-html/unnamed-chunk-2-1.png" width="200%" /&gt;
+
+---
+
+# Three-outcome designs
+
+Sargent _et al._:
+
+&lt;img src="three_outcomes_files/figure-html/unnamed-chunk-3-1.png" width="200%" /&gt;
+
+---
+
+# Three-outcome designs
+
+Storer:
+
+
+
+
+
+&lt;img src="three_outcomes_files/figure-html/unnamed-chunk-6-1.png" width="200%" /&gt;
+
+---
+
+# Three-outcome designs revisited
+
+Let
+$$
+`\begin{align}
+\eta_0 &amp;= Pr[\text{decide to }go ~|~ \rho = \rho_0, x_0 &lt; \hat{\rho} \leq x_1] \\
+\eta_1 &amp;= Pr[\text{decide to }stop ~|~ \rho = \rho_1, x_0 &lt; \hat{\rho} \leq x_1].
+\end{align}`
+$$
+Then
+$$
+`\begin{align}
+\alpha^* &amp;= \alpha + \eta_0 \lambda \\
+\beta^* &amp;= \beta + \eta_1 \delta.
+\end{align}`
+$$
+
+Assume `\(\eta_0 = \eta_1 = \eta\)`.
+---
+
+# Efficiency
+
+So, `\(\eta\)` is the probability of making the wrong decision under the null or the alternative. How does `\(\eta\)` affect sample size?
+
+
+
+&lt;img src="three_outcomes_files/figure-html/unnamed-chunk-8-1.png" width="200%" /&gt;
+
+---
+
+# Efficiency
+
+What happens to our error rates if, in fact, `\(\eta = 0.5\)`?
+
+&lt;img src="three_outcomes_files/figure-html/unnamed-chunk-9-1.png" width="200%" /&gt;
+
+---
+
+# Using other information
+
+Recall that `\(\gamma\)` is the maximum probability of a conclusive outcome (*stop* or *go*) when `\(\rho = \rho_m = \frac{1}{2}(\rho_0 + \rho_1)\)`. 
+
+How does `\(\gamma\)` affect sample size?
+
+
+
+&lt;img src="three_outcomes_files/figure-html/unnamed-chunk-11-1.png" width="200%" /&gt;
+
+---
+
+# Making adjustments
+
+Start with the unrealistic assumption that the nature and effect of the adjustment, denoted `\(\tau\)`, is known *a priori*.
+
+We need to revise our type I and II error definitions.
+
+&lt;br&gt;
+
+*go* when `\(\rho = \rho_0 \Rightarrow\)` Type I error
+
+*adjust* when `\(\rho + \tau = \rho_0 \Rightarrow\)` Type I error
+
+&lt;br&gt;
+
+*stop* when `\(\rho = \rho_1 \Rightarrow\)` Type II error
+
+*stop* when `\(\rho + \tau = \rho_1 \Rightarrow\)` Type II error
+
+*go* when `\(\rho = \rho_0\)` and `\(\rho + \tau = \rho_1 \Rightarrow\)` Type II error
+
+---
+
+# Making adjustments
+
+
+
+How does the required sample size vary with the adjustment effect `\(\tau\)`?
+
+&lt;img src="three_outcomes_files/figure-html/unnamed-chunk-13-1.png" width="200%" /&gt;
+
+---
+
+# Making adjustments
+
+
+
+What happens to our error rates when we *incorrectly* assume an adjustement effect of `\(\tau = 0.1\)`?
+
+&lt;br&gt;
+
+&lt;img src="three_outcomes_files/figure-html/unnamed-chunk-15-1.png" width="200%" /&gt;
+
+
+---
+
+# Discussion
+
+- Progression criteria as hypothesis tests
+
+- Alternative frameworks (designing for precision; Bayesian approaches) 
+
+- Adaptive designs 
+
+- Multivariate progression criteria
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

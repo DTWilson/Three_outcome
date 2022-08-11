@@ -7,6 +7,21 @@
   \urlstyle{rm}\Url}\fi
 \providecommand{\eprint}[2][]{\url{#2}}
 
+\bibitem{Eldridge2016}
+Eldridge SM, Lancaster GA, Campbell MJ et~al.
+\newblock Defining feasibility and pilot studies in preparation for randomised
+  controlled trials: Development of a conceptual framework.
+\newblock \emph{{PLOS} {ONE}} 2016; 11(3): e0150205.
+\newblock \doi{10.1371/journal.pone.0150205}.
+\newblock \urlprefix\url{http://dx.doi.org/10.1371/journal.pone.0150205}.
+
+\bibitem{Morgan2018}
+Morgan B, Hejdenberg J, Hinrichs-Krapels S et~al.
+\newblock Do feasibility studies contribute to, or avoid, waste in research?
+\newblock \emph{PLOS ONE} 2018; 13(4): 1--8.
+\newblock \doi{10.1371/journal.pone.0195951}.
+\newblock \urlprefix\url{https://doi.org/10.1371/journal.pone.0195951}.
+
 \bibitem{Eldridge2016a}
 Eldridge SM, Chan CL, Campbell MJ et~al.
 \newblock {CONSORT} 2010~{s}tatement: extension to randomised pilot and
@@ -14,14 +29,50 @@ Eldridge SM, Chan CL, Campbell MJ et~al.
 \newblock \emph{{BMJ}} 2016; : i5239\doi{10.1136/bmj.i5239}.
 \newblock \urlprefix\url{http://dx.doi.org/10.1136/bmj.i5239}.
 
-\bibitem{}
-S G and AP D.
-\newblock Defining and identifying the effect of treatment on the treated.
-\newblock In Illari P, Russo F and Williamson J (eds.) \emph{Causality in the
-  Sciences}. Oxford Univ. Pre, 2011.
-\newblock pp. 728 -- 49.
+\bibitem{NIHR2017}
+{National Institute for Health Research}.
+\newblock Research for patient benefit (rfpb) programme guidance on applying
+  for feasibility studies, 2017.
 \newblock
-  \urlprefix\url{http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.370.9724&rep=rep1&type=pdf}.
+  \urlprefix\url{https://www.nihr.ac.uk/funding-and-support/documents/funding-for-research-studies/research-programmes/RfPB/Guidance%20Documents/Guidance_on_feasibility_studies.pdf}.
+
+\bibitem{Mbuagbaw2019}
+Mbuagbaw L, Kosa SD, Lawson DO et~al.
+\newblock The reporting of progression criteria in protocols of pilot trials
+  designed to assess the feasibility of main trials is insufficient: a
+  meta-epidemiological study.
+\newblock \emph{Pilot and Feasibility Studies} 2019; 5(1).
+\newblock \doi{10.1186/s40814-019-0500-z}.
+
+\bibitem{Avery2017}
+Avery KNL, Williamson PR, Gamble C et~al.
+\newblock Informing efficient randomised controlled trials: exploration of
+  challenges in developing progression criteria for internal pilot studies.
+\newblock \emph{{BMJ} Open} 2017; 7(2): e013537.
+\newblock \doi{10.1136/bmjopen-2016-013537}.
+\newblock \urlprefix\url{https://doi.org/10.1136%2Fbmjopen-2016-013537}.
+
+\bibitem{Sargent2001}
+Sargent DJ, Chan V and Goldberg RM.
+\newblock A three-outcome design for phase {II} clinical trials.
+\newblock \emph{Controlled Clinical Trials} 2001; 22(2): 117 -- 125.
+\newblock \doi{http://dx.doi.org/10.1016/S0197-2456(00)00115-X}.
+\newblock
+  \urlprefix\url{http://www.sciencedirect.com/science/article/pii/S019724560000115X}.
+
+\bibitem{Craig2008}
+Craig P, Dieppe P, Macintyre S et~al.
+\newblock Developing and evaluating complex interventions: the new medical
+  research council guidance.
+\newblock \emph{BMJ: British Medical Journal} 2008; 337.
+\newblock \doi{10.1136/bmj.a1655}.
+
+\bibitem{Herbert2019}
+Herbert E, Julious SA and Goodacre S.
+\newblock Progression criteria in trials with an internal pilot: an audit of
+  publicly funded randomised controlled trials.
+\newblock \emph{Trials} 2019; 20(1).
+\newblock \doi{10.1186/s13063-019-3578-y}.
 
 \bibitem{Browne1995}
 Browne RH.
@@ -50,19 +101,39 @@ Whitehead AL, Julious SA, Cooper CL et~al.
 \newblock
   \eprint{http://smm.sagepub.com/content/early/2015/06/27/0962280215588241.full.pdf+html}.
 
-\bibitem{Sargent2001}
-Sargent DJ, Chan V and Goldberg RM.
-\newblock A three-outcome design for phase {II} clinical trials.
-\newblock \emph{Controlled Clinical Trials} 2001; 22(2): 117 -- 125.
-\newblock \doi{http://dx.doi.org/10.1016/S0197-2456(00)00115-X}.
+\bibitem{Kirby2016}
+Kirby S and Chuang-Stein C.
+\newblock A comparison of five approaches to decision-making for a first
+  clinical trial of efficacy.
+\newblock \emph{Pharmaceutical Statistics} 2016; 16(1): 37--44.
+\newblock \doi{10.1002/pst.1775}.
 \newblock
-  \urlprefix\url{http://www.sciencedirect.com/science/article/pii/S019724560000115X}.
+  \urlprefix\url{https://onlinelibrary.wiley.com/doi/abs/10.1002/pst.1775}.
+\newblock \eprint{https://onlinelibrary.wiley.com/doi/pdf/10.1002/pst.1775}.
+
+\bibitem{Lewis2021a}
+Lewis M, Bromley K, Sutton CJ et~al.
+\newblock Determining sample size for progression criteria for pragmatic pilot
+  rcts: the hypothesis test strikes back!
+\newblock \emph{Pilot and feasibility studies} 2021; 7(1): 1--14.
 
 \bibitem{Storer1992}
 Storer BE.
 \newblock A class of phase ii designs with three possible outcomes.
 \newblock \emph{Biometrics} 1992; 48(1): 55--60.
 \newblock \urlprefix\url{http://www.jstor.org/stable/2532738}.
+
+\bibitem{Sargent2001a}
+Sargent DJ and Goldberg RM.
+\newblock A flexible design for multiple armed screening trials ; 20(7):
+  1051--1060.
+\newblock \doi{10.1002/sim.704}.
+
+\bibitem{Dehbi2020}
+Dehbi HM and Hackshaw A.
+\newblock Sample size calculation in randomised phase ii selection trials using
+  a margin of practical equivalence.
+\newblock \emph{Trials} 2020; 21: 1--7.
 
 \bibitem{Hong2007}
 Hong S and Wang Y.
@@ -71,43 +142,6 @@ Hong S and Wang Y.
 \newblock \emph{Statist Med} 2007; 26(19): 3525--3534.
 \newblock \doi{10.1002/sim.2824}.
 \newblock \urlprefix\url{http://dx.doi.org/10.1002/sim.2824}.
-
-\bibitem{Hampson2017}
-Hampson LV, Williamson PR, Wilby MJ et~al.
-\newblock A framework for prospectively defining progression rules for internal
-  pilot studies monitoring recruitment.
-\newblock \emph{Statistical Methods in Medical Research} 2017; 0(0):
-  0962280217708906.
-\newblock \doi{10.1177/0962280217708906}.
-\newblock \urlprefix\url{http://dx.doi.org/10.1177/0962280217708906}.
-\newblock PMID: 28589752, \eprint{http://dx.doi.org/10.1177/0962280217708906}.
-
-\bibitem{Avery2017}
-Avery KNL, Williamson PR, Gamble C et~al.
-\newblock Informing efficient randomised controlled trials: exploration of
-  challenges in developing progression criteria for internal pilot studies.
-\newblock \emph{{BMJ} Open} 2017; 7(2): e013537.
-\newblock \doi{10.1136/bmjopen-2016-013537}.
-\newblock \urlprefix\url{https://doi.org/10.1136%2Fbmjopen-2016-013537}.
-
-\bibitem{Fleming1982}
-Fleming TR.
-\newblock One-sample multiple testing procedure for phase {II} clinical trials.
-\newblock \emph{Biometrics} 1982; 38(1): 143--151.
-\newblock \urlprefix\url{http://www.jstor.org/stable/2530297}.
-
-\bibitem{Shuster2002}
-Shuster J.
-\newblock Optimal two-stage designs for single arm phase ii cancer trials.
-\newblock \emph{Journal of Biopharmaceutical Statistics} 2002; 12(1): 39--51.
-
-\bibitem{Simon1989}
-Simon R.
-\newblock Optimal two-stage designs for phase {II} clinical trials.
-\newblock \emph{Controlled Clinical Trials} 1989; 10(1): 1 -- 10.
-\newblock \doi{http://dx.doi.org/10.1016/0197-2456(89)90015-9}.
-\newblock
-  \urlprefix\url{http://www.sciencedirect.com/science/article/pii/0197245689900159}.
 
 \bibitem{Brown2012}
 Brown MJ, Chuang-Stein C and Kirby S.
@@ -119,32 +153,41 @@ Brown MJ, Chuang-Stein C and Kirby S.
 \newblock PMID: 23075010,
   \eprint{https://doi.org/10.1080/10543406.2011.570466}.
 
-\bibitem{Emerson1987}
-Emerson JD and Tritchler D.
-\newblock The three-decision problem in medical decision making.
-\newblock \emph{Statistics in Medicine} 1987; 6(2): 101--112.
-\newblock \doi{10.1002/sim.4780060202}.
-\newblock
-  \urlprefix\url{https://onlinelibrary.wiley.com/doi/abs/10.1002/sim.4780060202}.
-\newblock
-  \eprint{https://onlinelibrary.wiley.com/doi/pdf/10.1002/sim.4780060202}.
+\bibitem{Hampson2017}
+Hampson LV, Williamson PR, Wilby MJ et~al.
+\newblock A framework for prospectively defining progression rules for internal
+  pilot studies monitoring recruitment.
+\newblock \emph{Statistical Methods in Medical Research} 2017; 0(0):
+  0962280217708906.
+\newblock \doi{10.1177/0962280217708906}.
+\newblock \urlprefix\url{http://dx.doi.org/10.1177/0962280217708906}.
+\newblock PMID: 28589752, \eprint{http://dx.doi.org/10.1177/0962280217708906}.
 
-\bibitem{Kirby2016}
-Kirby S and Chuang-Stein C.
-\newblock A comparison of five approaches to decision-making for a first
-  clinical trial of efficacy.
-\newblock \emph{Pharmaceutical Statistics} 2016; 16(1): 37--44.
-\newblock \doi{10.1002/pst.1775}.
-\newblock
-  \urlprefix\url{https://onlinelibrary.wiley.com/doi/abs/10.1002/pst.1775}.
-\newblock \eprint{https://onlinelibrary.wiley.com/doi/pdf/10.1002/pst.1775}.
+\bibitem{Wilson2021}
+Wilson DT, Wason JMS, Brown J et~al.
+\newblock Bayesian design and analysis of external pilot trials for complex
+  interventions.
+\newblock \emph{Statistics in Medicine} 2021; \doi{10.1002/sim.8941}.
 
-\bibitem{Mbuagbaw2019}
-Mbuagbaw L, Kosa SD, Lawson DO et~al.
-\newblock The reporting of progression criteria in protocols of pilot trials
-  designed to assess the feasibility of main trials is insufficient: a
-  meta-epidemiological study.
-\newblock \emph{Pilot and Feasibility Studies} 2019; 5(1).
-\newblock \doi{10.1186/s40814-019-0500-z}.
+\bibitem{Willan2020}
+Willan AR and Thabane L.
+\newblock Bayesian methods for pilot studies.
+\newblock \emph{Clinical Trials} 2020; 17(4): 414--419.
+\newblock \doi{10.1177/1740774520914306}.
+
+\bibitem{Willan1994}
+Willan AR.
+\newblock Power function arguments in support of an alternative approach for
+  analyzing management trials.
+\newblock \emph{Controlled Clinical Trials} 1994; 15(3): 211--219.
+\newblock \doi{10.1016/0197-2456(94)90058-2}.
+\newblock
+  \urlprefix\url{https://www.sciencedirect.com/science/article/pii/0197245694900582?via%3Dihub}.
+
+\bibitem{Wilson2021a}
+Wilson DT, Brown J, Farrin AJ et~al.
+\newblock A hypothesis test of feasibility for external pilot trials assessing
+  recruitment, follow-up, and adherence rates.
+\newblock \emph{Statistics in Medicine} 2021; \doi{10.1002/sim.9091}.
 
 \end{thebibliography}

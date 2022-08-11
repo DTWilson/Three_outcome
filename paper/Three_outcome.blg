@@ -1,3 +1,10 @@
 This is BibTeX, Version 0.99dThe top-level auxiliary file: Three_outcome.aux
 The style file: SageV.bst
 Database file #1: C:/Users/meddwilb/Documents/Literature/Databases/DTWrefs.bib
+Warning--entry type for "NIHR2017" isn't style-file defined
+--line 13693 of file C:/Users/meddwilb/Documents/Literature/Databases/DTWrefs.bib
+`journal' is a missing field, not a string, for entry Sargent2001a
+while executing---line 1346 of file SageV.bst
+Warning--empty journal in Sargent2001a
+Warning--empty year in Sargent2001a
+(There was 1 error message)

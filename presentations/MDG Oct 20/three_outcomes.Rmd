@@ -1,0 +1,432 @@
+---
+title: "Three-outcome designs for pilot trials with progression criteria"
+subtitle: "Methedology Discussion Group"
+author: "Duncan Wilson"
+institute: ""
+date: "28/10/2020"
+output:
+  xaringan::moon_reader:
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+
+---
+
+# Progression criteria
+
+Model adherence as a binomial with sample size $n$ and probability $\rho$.
+
+<br>
+
+Two-outcome PC: compare estimate $\hat{\rho}$ against a threshold $x$:
+
+$$
+\text{Decision} = 
+\begin{cases}
+go & \text{ if } \hat{\rho} \geq x \\
+stop & \text{ if } \hat{\rho} < x. \\
+\end{cases}
+$$
+
+<br>
+
+In the three-outcome case, we allow for an additional intermediate result and require two thresholds, $x_0$ and $x_1$:
+
+$$
+\text{Decision} = 
+\begin{cases}
+go & \text{ if } \hat{\rho} \geq x_1 \\
+pause & \text{ if } x_0 < \hat{\rho} < x_1 \\
+stop & \text{ if } \hat{\rho} < x_0. \\
+\end{cases}
+$$
+
+---
+
+# Rationale
+
+**Efficiency**: by allowing an intermediate outcome, we will be less likely to make a 'hard' $stop$ or $go$ decision as a result of just bad luck.
+
+<br>
+
+**Using other information**: if we get an inconclusive result with respect to adherence, we want to look at other factors to decide if we should proceed.
+
+<br>
+
+**Making adjustments**: if adherence appears to be not great, but not terrible, we want to have the opportinity to adjust the intervention and/or the trial design to bring it up to an acceptable level.
+
+---
+
+# Hypothesis tests
+
+```{r, include = F}
+require(ggplot2)
+require(RColorBrewer)
+require(patchwork)
+cols <- brewer.pal(8, "Dark2")
+```
+
+$\alpha =$ Probability that $\hat{\rho} >= x$ (*go*) under the null, $\rho = \rho_0 = 0.5$
+
+$\beta =$ Probability that $\hat{\rho} < x$ (*stop*) under the alternative, $\rho = \rho_1 = 0.7$
+
+```{r, echo=F, fig.width = 6, fig.height = 3, out.width="200%", dpi=200}
+ggplot(data.frame(x = c(-10, 10)), aes(x)) +
+  # Null 
+  stat_function(fun = dnorm, geom = "line", aes(linetype="a")) +
+  stat_function(fun = dnorm, geom = "area", fill = "orange", alpha = 0.4, xlim = c(1.5, 7)) +
+  
+  # Alternative
+  stat_function(fun = dnorm, args = list(mean = 2.5), geom = "line", aes(linetype="b")) +
+  stat_function(fun = dnorm, args = list(mean = 2.5), 
+                geom = "area", fill = "darkgreen", alpha = 0.4, xlim = c(-3, 1.5)) +
+  
+  geom_label(aes(x = 0.2, y = 0.1, label = "beta"), parse = T, fill = "darkgreen", alpha = 0.4) +
+  geom_label(aes(x = 2.6, y = 0.06, label = "alpha"), parse = T, fill = "orange", alpha = 0.4) +
+  
+  geom_text(aes(x=1.5, y=-0.04, label = "x"), parse = T) +
+  
+  scale_linetype_manual(values = c(1,2), 
+                        labels = c(expression(rho[0]), expression(rho[1])), name="") +
+  
+  xlim(-4, 6.5) + theme_void() + theme(legend.position="bottom")
+```
+
+---
+
+# Three-outcome designs
+
+Sargent _et al._:
+
+```{r, echo=F, fig.width = 6, fig.height = 3, out.width="200%", dpi=200}
+ggplot(data.frame(x = c(-10, 10)), aes(x)) +
+  # Null 
+  stat_function(fun = dnorm, geom = "line", aes(linetype="a")) +
+  stat_function(fun = dnorm, geom = "area", fill = "orange", alpha = 0.4, xlim = c(2, 7)) +
+  stat_function(fun = dnorm, geom = "area", fill = "red", alpha = 0.4, xlim = c(1, 2)) +
+  
+  # Alternative
+  stat_function(fun = dnorm, args = list(mean = 2.5), geom = "line", aes(linetype="b")) +
+  stat_function(fun = dnorm, args = list(mean = 2.5), 
+                geom = "area", fill = "darkgreen", alpha = 0.4, xlim = c(-3, 1)) +
+  stat_function(fun = dnorm, args = list(mean = 2.5), 
+                geom = "area", fill = "blue", alpha = 0.4, xlim = c(1, 2)) +
+  
+  geom_label(aes(x = 0.6, y = 0.22, label = "lambda"), parse = T, fill = "red", alpha = 0.4) +
+  geom_label(aes(x = 2.4, y = 0.17, label = "delta"), parse = T, fill = "blue", alpha = 0.4) +
+  geom_label(aes(x = 0.2, y = 0.1, label = "beta"), parse = T, fill = "darkgreen", alpha = 0.4) +
+  geom_label(aes(x = 2.6, y = 0.06, label = "alpha"), parse = T, fill = "orange", alpha = 0.4) +
+  
+  geom_text(aes(x=1, y=-0.04, label = "x[0]"), parse = T) +
+  geom_text(aes(x=2, y=-0.04, label = "x[1]"), parse = T) +
+  
+  scale_linetype_manual(values = c(1,2), 
+                        labels = c(expression(rho[0]), expression(rho[1])), name="") +
+  
+  xlim(-4, 6.5) + theme_void() + theme(legend.position="bottom")
+```
+
+---
+
+# Three-outcome designs
+
+Storer:
+
+```{r, include=F}
+p1 <- ggplot(data.frame(x = c(-10, 10)), aes(x)) +
+  # Null 
+  stat_function(fun = dnorm, geom = "line", aes(linetype = "a")) +
+  stat_function(fun = dnorm, geom = "area", fill = "orange", alpha = 0.4, xlim = c(1, 7)) +
+  
+  # Alternative
+  stat_function(fun = dnorm, args = list(mean = 2.5), geom = "line", aes(linetype = "b")) +
+  stat_function(fun = dnorm, args = list(mean = 2.5), 
+                geom = "area", fill = "darkgreen", alpha = 0.4, xlim = c(-3, 2)) +
+  
+  geom_label(aes(x = 0.2, y = 0.12, label = "beta"), parse = T, fill = "darkgreen", alpha = 0.4) +
+  geom_label(aes(x = 2.6, y = 0.08, label = "alpha"), parse = T, fill = "orange", alpha = 0.4) +
+
+  geom_text(aes(x=1, y=-0.04, label = "x[0]"), parse = T) +
+  geom_text(aes(x=2, y=-0.04, label = "x[1]"), parse = T) +
+  
+  stat_function(fun = dnorm, geom = "line", aes(linetype = "c"), xlim = c(0,0)) +
+  
+  scale_linetype_manual(values = c(1,2, 3), 
+                        labels = c(expression(rho[0]), expression(rho[1]),
+                                   expression(rho[m])), name="") +
+  
+  xlim(-4, 6.5) + theme_void() + theme(legend.position="bottom")
+```
+
+```{r, include = F}
+p2 <- ggplot(data.frame(x = c(-10, 10)), aes(x)) +
+  # Midpoint
+  stat_function(fun = dnorm, args = list(mean = 1.25), geom = "line", linetype=3) +
+  stat_function(fun = dnorm, args = list(mean = 1.25), 
+                geom = "area", fill = "red", alpha = 0.4, xlim = c(-3, 1)) +
+  stat_function(fun = dnorm, args = list(mean = 1.25), 
+                geom = "area", fill = "blue", alpha = 0.4, xlim = c(2, 7)) +
+  
+  geom_label(aes(x = -0.9, y = 0.12, label = "gamma[L]"), parse = T, fill = "red", alpha = 0.4) +
+  geom_label(aes(x = 3.4, y = 0.12, label = "gamma[U]"), parse = T, fill = "blue", alpha = 0.4) +
+  xlim(-4, 6.5) + theme_void()
+```
+
+```{r, echo = F, fig.width = 6, fig.height = 3, out.width="200%", dpi=200}
+p2/p1
+```
+
+---
+
+# Three-outcome designs revisited
+
+Let
+$$
+\begin{align}
+\eta_0 &= Pr[\text{decide to }go ~|~ \rho = \rho_0, x_0 < \hat{\rho} \leq x_1] \\
+\eta_1 &= Pr[\text{decide to }stop ~|~ \rho = \rho_1, x_0 < \hat{\rho} \leq x_1].
+\end{align}
+$$
+Then
+$$
+\begin{align}
+\alpha^* &= \alpha + \eta_0 \lambda \\
+\beta^* &= \beta + \eta_1 \delta.
+\end{align}
+$$
+
+Assume $\eta_0 = \eta_1 = \eta$.
+---
+
+# Efficiency
+
+So, $\eta$ is the probability of making the wrong decision under the null or the alternative. How does $\eta$ affect sample size?
+
+```{r, include=F}
+get_n <- function(eta, rho_0, rho_1, alpha_nom, beta_nom)
+{
+  # Create a dataframe of all designs
+  df <- expand.grid(n = 1:60,
+                    x0 = 0:60,
+                    x1 = 0:60)
+  df <- df[df$x0 <= df$n & df$x1 <= df$n & df$x0 <= df$x1,]
+  
+  # Calculate the type I and II error rates for each design
+  df$alpha <- 1 - pbinom(df$x1, df$n, rho_0) +
+              eta*(pbinom(df$x1, df$n, rho_0) - pbinom(df$x0, df$n, rho_0))
+  df$beta <- pbinom(df$x0, df$n, rho_1) +
+              eta*(pbinom(df$x1, df$n, rho_1) - pbinom(df$x0, df$n, rho_1))
+  
+  df <- df[df$alpha <= alpha_nom & df$beta <= beta_nom,]
+  opt <- which.min(df$n)
+  as.numeric(df[opt, ])
+}
+
+rho_0 <- 0.5; rho_1 <- 0.7; alpha_nom <- 0.05; beta_nom <- 0.1
+
+df <- data.frame(eta = seq(0.01, 0.5, 0.001))
+df <- cbind(df, t(sapply(df$eta, get_n, rho_0=rho_0, rho_1=rho_1, alpha_nom=alpha_nom, beta_nom=beta_nom)))
+names(df)[2:4] <- c("n", "x0", "x1")
+df$dif <- df$x1 - df$x0
+
+df$tru_a <- 1 - pbinom(df$x1, df$n, rho_0) + 
+  0.5*(pbinom(df$x1, df$n, rho_0) - pbinom(df$x0, df$n, rho_0))
+df$tru_b <- pbinom(df$x0, df$n, rho_1) + 
+  0.5*(pbinom(df$x1, df$n, rho_1) - pbinom(df$x0, df$n, rho_1))
+```
+
+```{r, echo = F, fig.width = 6, fig.height = 3, out.width="200%", dpi=200}
+ggplot(df, aes(eta)) + geom_line(aes(y=n, linetype = "a")) +
+  xlab("Probability of incorrect decision following intermediate result") +
+  ylab("Sample size") + 
+  scale_linetype_manual(name = "",
+                       values = 1,
+                       labels =c("n")) +
+  theme_minimal()
+```
+
+---
+
+# Efficiency
+
+What happens to our error rates if, in fact, $\eta = 0.5$?
+
+```{r, echo = F, fig.width = 6, fig.height = 3, out.width="200%", dpi=200}
+ggplot(df, aes(eta)) + geom_line(aes(y=n, linetype = "a")) +
+  geom_line(aes(y = 100*tru_a, linetype = "b")) +
+  geom_line(aes(y = 100*tru_b, linetype = "c")) + 
+  xlab("Probability of incorrect decision following intermediate result") +
+  ylab("Sample size") + 
+  scale_y_continuous(sec.axis = sec_axis(~ ./100, name = "Error rate")) +
+  scale_linetype_manual(name = "",
+                       values = 1:3,
+                       labels =c("n", expression(alpha), expression(beta))) +
+  theme_minimal()
+```
+
+---
+
+# Using other information
+
+Recall that $\gamma$ is the maximum probability of a conclusive outcome (*stop* or *go*) when $\rho = \rho_m = \frac{1}{2}(\rho_0 + \rho_1)$. 
+
+How does $\gamma$ affect sample size?
+
+```{r, include = F}
+get_n <- function(gamma, rho_0, rho_1, alpha_nom, beta_nom, max_n)
+{
+  # Create a dataframe of all designs
+  df <- expand.grid(n = 1:max_n,
+                    x0 = 0:max_n,
+                    x1 = 0:max_n)
+  df <- df[df$x0 <= df$n & df$x1 <= df$n & df$x0 <= df$x1,]
+  
+  # Calculate the error rates for each design
+  df$alpha <- 1 - pbinom(df$x1, df$n, rho_0) +
+              0.5*(pbinom(df$x1, df$n, rho_0) - pbinom(df$x0, df$n, rho_0))
+  df$beta <- pbinom(df$x0, df$n, rho_1) +
+              0.5*(pbinom(df$x1, df$n, rho_1) - pbinom(df$x0, df$n, rho_1))
+  df$gamma_U <- 1 - pbinom(df$x1, df$n, rho_0 + (rho_1 - rho_0)/2) 
+  df$gamma_L <- pbinom(df$x0, df$n, rho_0 + (rho_1 - rho_0)/2)
+  
+  df <- df[df$alpha <= alpha_nom & df$beta <= beta_nom & df$gamma_L + df$gamma_U <= gamma, ]
+  opt <- which.min(df$n)
+  c(df[opt, "n"], df[opt, "x1"] - df[opt, "x0"], df[opt, "x1"], df[opt, "x0"])
+}
+
+rho_0 <- 0.5; rho_1 <- 0.7; alpha_nom <- 0.05; beta_nom <- 0.1
+
+df <- data.frame(gamma = seq(0.2, 1, 0.1))
+df <- cbind(df, t(sapply(df$gamma, get_n, rho_0=rho_0, rho_1=rho_1, alpha_nom=alpha_nom, beta_nom=beta_nom, max_n=168)))
+names(df)[2:3] <- c("n", "dif")
+```
+
+```{r, echo = F, fig.width = 6, fig.height = 3, out.width="200%", dpi=200}
+ggplot(df, aes(gamma)) + geom_line(aes(y=n)) +
+  geom_line(aes(y = dif), linetype=2) + 
+  xlab("Maximum probability of incorrectly conclusive decision") +
+  ylab("Sample size") +
+  theme_minimal()
+```
+
+---
+
+# Making adjustments
+
+Start with the unrealistic assumption that the nature and effect of the adjustment, denoted $\tau$, is known *a priori*.
+
+We need to revise our type I and II error definitions.
+
+<br>
+
+*go* when $\rho = \rho_0 \Rightarrow$ Type I error
+
+*adjust* when $\rho + \tau = \rho_0 \Rightarrow$ Type I error
+
+<br>
+
+*stop* when $\rho = \rho_1 \Rightarrow$ Type II error
+
+*stop* when $\rho + \tau = \rho_1 \Rightarrow$ Type II error
+
+*go* when $\rho = \rho_0$ and $\rho + \tau = \rho_1 \Rightarrow$ Type II error
+
+---
+
+# Making adjustments
+
+```{r, include=F}
+get_ocs <- function(x, n, rho_0, rho_1, tau) 
+{
+  tI_1 <- pbinom(x[2], n, rho_0 - tau) - pbinom(x[1], n, rho_0 - tau)
+  tI_2 <- 1 - pbinom(x[2], n, rho_0)
+  
+  tII <- pbinom(x[1], n, rho_1 - tau)
+  
+  c(max(tI_1, tI_2), tII)
+}
+
+get_n <- function(tau, rho_0, rho_1, alpha_nom, beta_nom, max_n)
+{
+  # Create a dataframe of all designs
+  df <- expand.grid(n = 1:max_n,
+                    x0 = 0:max_n,
+                    x1 = 0:max_n)
+  df <- df[df$x0 <= df$n & df$x1 <= df$n & df$x0 <= df$x1,]
+  
+  # Calculate the error rates for each design
+  df$alpha1 <- 1 - pbinom(df$x1, df$n, rho_0)
+  df$alpha2 <- 1  - pbinom(df$x0, df$n, rho_0 - tau)
+  df$beta1 <- pbinom(df$x0, df$n, rho_1 - tau)
+  
+  df <- df[df$alpha1 <= alpha_nom & df$alpha2 <= alpha_nom & df$beta <= beta_nom, ]
+  opt <- which.min(df$n)
+  #df[opt,]
+  c(df[opt, "n"], df[opt, "x1"], df[opt, "x0"])
+}
+
+get_n(tau=0, rho_0, rho_1, alpha_nom, beta_nom, max_n = 100)
+
+df <- data.frame(tau = seq(0, 0.5, 0.001))
+df <- cbind(df, t(sapply(df$tau, get_n, rho_0=rho_0, rho_1=rho_1, alpha_nom=alpha_nom, beta_nom=beta_nom, max_n=70)))
+names(df)[2:4] <- c("n", "x1", "x0")
+df$dif <- df$x1 - df$x0
+```
+
+How does the required sample size vary with the adjustment effect $\tau$?
+
+```{r, echo = F, fig.width = 6, fig.height = 3, out.width="200%", dpi=200}
+ggplot(df, aes(tau)) + geom_line(aes(y = n, linetype = "a")) +
+  xlab("Effect of adjustment") +
+  ylab("Sample size") +
+  scale_linetype_manual(name = "",
+                       values = 1,
+                       labels =c("n")) +
+  theme_minimal()
+```
+
+---
+
+# Making adjustments
+
+```{r, include = F}
+get_tru_ocs <- function(tau)
+{
+  x <- c(28, 34); n <- 56; rho_0 <- 0.5; rho_1 <- 0.7
+  get_ocs(x, n, rho_0, rho_1, tau) 
+}
+
+df <- cbind(df, t(sapply(df$tau, get_tru_ocs)))
+names(df)[6:7] <- c("a", "b")
+```
+
+What happens to our error rates when we *incorrectly* assume an adjustement effect of $\tau = 0.1$?
+
+<br>
+
+```{r, echo = F, fig.width = 6, fig.height = 3, out.width="200%", dpi=200}
+ggplot(df, aes(tau)) + geom_line(aes(y = n, linetype = "a")) +
+  geom_line(aes(y = 80*a, linetype = "b")) + geom_line(aes(y = 80*b, linetype = "c")) +
+  xlab("Effect of adjustment") +
+  ylab("Sample size") +
+  scale_y_continuous(sec.axis = sec_axis(~ ./80, name = "Error rate")) +
+  scale_linetype_manual(name = "",
+                       values = 1:3,
+                       labels =c("n", expression(alpha), expression(beta))) +
+  theme_minimal()
+```
+
+
+---
+
+# Discussion
+
+- Progression criteria as hypothesis tests
+
+- Alternative frameworks (designing for precision; Bayesian approaches) 
+
+- Adaptive designs 
+
+- Multivariate progression criteria
